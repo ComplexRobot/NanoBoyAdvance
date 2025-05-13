@@ -1,0 +1,16 @@
+[submodule "fmt"]
+	path = fmt
+	url = https://github.com/fmtlib/fmt
+	branch = master
+[submodule "toml11"]
+	path = toml11
+	url = https://github.com/ToruNiina/toml11
+	branch = main
+[submodule "SDL"]
+	path = SDL
+	url = https://github.com/libsdl-org/SDL
+	branch = SDL2
+[submodule "unarr"]
+	path = unarr
+	url = https://github.com/selmf/unarr
+	branch = master

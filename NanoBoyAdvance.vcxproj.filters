@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="nba">
+      <UniqueIdentifier>{7aee6e4b-012f-4d7f-93f2-c3291c2bb8c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\arm">
+      <UniqueIdentifier>{8994d3bb-6f0c-4895-97e7-05a8f97cf8f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\arm\handlers">
+      <UniqueIdentifier>{f487ffac-5662-498a-937f-725020addf06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\bus">
+      <UniqueIdentifier>{1b69abdf-9aa4-4676-84a7-932d0465140d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\hw">
+      <UniqueIdentifier>{43a2ad40-f74a-4566-89aa-9e4b7c040921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\hw\apu">
+      <UniqueIdentifier>{a036bf43-7600-47fe-9589-e797c2d5de9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\hw\dma">
+      <UniqueIdentifier>{f68c641e-250d-47b9-b737-acc6587928c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\hw\irq">
+      <UniqueIdentifier>{d437016c-d5bb-445a-ae0a-d7e9dab420dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\hw\keypad">
+      <UniqueIdentifier>{fc87a860-1358-4453-9800-dab91ece9e16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\hw\ppu">
+      <UniqueIdentifier>{bb97a927-5b15-4772-8c8b-d2973ff623c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\hw\rom">
+      <UniqueIdentifier>{128aad42-9ed0-4ebc-9bbc-3282c776dd48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\hw\rom\backup">
+      <UniqueIdentifier>{b9510fba-2d7c-4d1a-b5f5-6e60d81817c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\hw\rom\gpio">
+      <UniqueIdentifier>{5cbedb2e-4d8c-4568-8fa0-2b00a20fef9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nba\hw\timer">
+      <UniqueIdentifier>{0e00431d-0d2d-48c7-9ee5-1d56fd89c58d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{30b6460c-cd4e-46a7-85db-67fc3d0a53ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\core">
+      <UniqueIdentifier>{82eeed0f-5b06-4e74-98b4-443581ce1e5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\core\device">
+      <UniqueIdentifier>{cff48ce1-4f87-455c-90de-55638c6049bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\core\loader">
+      <UniqueIdentifier>{17e9162e-e438-434a-9e7e-61b2d5814c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\core\writer">
+      <UniqueIdentifier>{604b91e1-1aaf-4dc5-95a9-77210de6894a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\qt">
+      <UniqueIdentifier>{2745d3d7-b478-47ae-914d-08c9c2df266c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\qt\widget">
+      <UniqueIdentifier>{4de551e1-e651-495e-8f50-6d39289901ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\qt\widget\debugger">
+      <UniqueIdentifier>{70726993-720c-4479-9754-3425320684e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\qt\moc">
+      <UniqueIdentifier>{44444b6b-d882-4fc8-a0c2-fe48996128fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\qt\moc\out">
+      <UniqueIdentifier>{3393a4fe-8383-4a04-8c8c-4afbd079b965}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\nba\src\core.cpp">
+      <Filter>nba</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\serialization.cpp">
+      <Filter>nba</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\arm\serialization.cpp">
+      <Filter>nba\arm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\arm\tablegen\tablegen.cpp">
+      <Filter>nba\arm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\bus\bus.cpp">
+      <Filter>nba\bus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\bus\io.cpp">
+      <Filter>nba\bus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\bus\serialization.cpp">
+      <Filter>nba\bus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\bus\timing.cpp">
+      <Filter>nba\bus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\apu\apu.cpp">
+      <Filter>nba\hw\apu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\apu\callback.cpp">
+      <Filter>nba\hw\apu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\apu\registers.cpp">
+      <Filter>nba\hw\apu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\apu\serialization.cpp">
+      <Filter>nba\hw\apu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\apu\channel\noise_channel.cpp">
+      <Filter>nba\hw\apu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\apu\channel\quad_channel.cpp">
+      <Filter>nba\hw\apu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\apu\channel\wave_channel.cpp">
+      <Filter>nba\hw\apu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\apu\hle\mp2k.cpp">
+      <Filter>nba\hw\apu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\dma\serialization.cpp">
+      <Filter>nba\hw\dma</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\dma\dma.cpp">
+      <Filter>nba\hw\dma</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\irq\irq.cpp">
+      <Filter>nba\hw\irq</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\irq\serialization.cpp">
+      <Filter>nba\hw\irq</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\keypad\keypad.cpp">
+      <Filter>nba\hw\keypad</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\keypad\serialization.cpp">
+      <Filter>nba\hw\keypad</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\ppu\background.cpp">
+      <Filter>nba\hw\ppu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\ppu\merge.cpp">
+      <Filter>nba\hw\ppu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\ppu\ppu.cpp">
+      <Filter>nba\hw\ppu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\ppu\registers.cpp">
+      <Filter>nba\hw\ppu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\ppu\serialization.cpp">
+      <Filter>nba\hw\ppu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\ppu\sprite.cpp">
+      <Filter>nba\hw\ppu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\ppu\window.cpp">
+      <Filter>nba\hw\ppu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\rom\backup\eeprom.cpp">
+      <Filter>nba\hw\rom\backup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\rom\backup\flash.cpp">
+      <Filter>nba\hw\rom\backup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\rom\backup\serialization.cpp">
+      <Filter>nba\hw\rom\backup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\rom\backup\sram.cpp">
+      <Filter>nba\hw\rom\backup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\rom\gpio\gpio.cpp">
+      <Filter>nba\hw\rom\gpio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\rom\gpio\rtc.cpp">
+      <Filter>nba\hw\rom\gpio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\rom\gpio\serialization.cpp">
+      <Filter>nba\hw\rom\gpio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\rom\gpio\solar_sensor.cpp">
+      <Filter>nba\hw\rom\gpio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\timer\serialization.cpp">
+      <Filter>nba\hw\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\hw\timer\timer.cpp">
+      <Filter>nba\hw\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\core\src\device\ogl_video_device.cpp">
+      <Filter>platform\core\device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\core\src\device\sdl_audio_device.cpp">
+      <Filter>platform\core\device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\core\src\loader\bios.cpp">
+      <Filter>platform\core\loader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\core\src\loader\rom.cpp">
+      <Filter>platform\core\loader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\core\src\loader\save_state.cpp">
+      <Filter>platform\core\loader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\core\src\writer\save_state.cpp">
+      <Filter>platform\core\writer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\core\src\config.cpp">
+      <Filter>platform\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\core\src\emulator_thread.cpp">
+      <Filter>platform\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\core\src\frame_limiter.cpp">
+      <Filter>platform\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\core\src\game_db.cpp">
+      <Filter>platform\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\config.cpp">
+      <Filter>platform\qt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\main.cpp">
+      <Filter>platform\qt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\controller_manager.cpp">
+      <Filter>platform\qt\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\input_window.cpp">
+      <Filter>platform\qt\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\main_window.cpp">
+      <Filter>platform\qt\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\screen.cpp">
+      <Filter>platform\qt\widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\background_viewer.cpp">
+      <Filter>platform\qt\widget\debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\background_viewer_window.cpp">
+      <Filter>platform\qt\widget\debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\color_grid.cpp">
+      <Filter>platform\qt\widget\debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\palette_viewer.cpp">
+      <Filter>platform\qt\widget\debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\palette_viewer_window.cpp">
+      <Filter>platform\qt\widget\debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\sprite_viewer.cpp">
+      <Filter>platform\qt\widget\debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\sprite_viewer_window.cpp">
+      <Filter>platform\qt\widget\debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\tile_viewer.cpp">
+      <Filter>platform\qt\widget\debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\tile_viewer_window.cpp">
+      <Filter>platform\qt\widget\debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="glad\src\gl.c">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_tile_viewer_window.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_background_viewer.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_background_viewer_window.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_color_grid.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_palette_viewer.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_palette_viewer_window.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_sprite_viewer.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_sprite_viewer_window.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_tile_viewer.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\moc_screen.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\moc_controller_manager.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\moc_input_window.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+    <ClCompile Include="src\platform\qt\src\widget\moc_main_window.cpp">
+      <Filter>platform\qt\moc\out</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\nba\src\arm\handlers\arithmetic.inl">
+      <Filter>nba\arm\handlers</Filter>
+    </None>
+    <None Include="src\nba\src\arm\handlers\handler16.inl">
+      <Filter>nba\arm\handlers</Filter>
+    </None>
+    <None Include="src\nba\src\arm\handlers\handler32.inl">
+      <Filter>nba\arm\handlers</Filter>
+    </None>
+    <None Include="src\nba\src\arm\handlers\memory.inl">
+      <Filter>nba\arm\handlers</Filter>
+    </None>
+    <None Include="src\nba\src\hw\ppu\background.inl">
+      <Filter>nba\hw\ppu</Filter>
+    </None>
+    <None Include="Directory.Build.props" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\background_viewer.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\background_viewer_window.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\color_grid.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\controller_manager.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\main_window.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\palette_viewer.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\palette_viewer_window.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\screen.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\sprite_viewer.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\sprite_viewer_window.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\tile_viewer.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\tile_viewer_window.hpp">
+      <Filter>platform\qt\moc</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\version.in.hpp">
+      <Filter>platform\qt</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\platform\qt\app.rc">
+      <Filter>platform\qt</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

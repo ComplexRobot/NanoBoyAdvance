@@ -11,7 +11,6 @@
 #include <fmt/color.h>
 #include <fmt/format.h>
 #include <string_view>
-#include <utility>
 
 namespace nba {
 
@@ -67,14 +66,14 @@ inline void Log(std::string_view format, Args&&... args) {
     }
 
     const auto& style_ref = style;
-    fmt::print(style_ref, "{} {}\n", prefix, fmt::format(format, std::forward<Args>(args)...));
+    fmt::print(style_ref, "{} {}\n", prefix, fmt::vformat(format, fmt::make_format_args(args...)));
   }
 }
 
 template<typename... Args>
-inline void Assert(bool condition, Args... args) {
+inline void Assert(bool condition, Args&&... args) {
   if(!condition) {
-    Log<Fatal>(std::forward<Args>(args)...);
+    Log<Fatal>(args...);
     std::exit(-1);
   }
 }

@@ -134,7 +134,7 @@ auto ROMLoader::ReadFile(fs::path const& path, std::vector<u8>& file_data) -> Re
 }
 
 auto ROMLoader::ReadFileFromArchive(fs::path const& path, std::vector<u8>& file_data) -> Result {
-  auto stream = ar_open_file(path.u8string().c_str());
+  auto stream = ar_open_file((const char*)path.u8string().c_str());
 
   if(!stream) {
     return Result::CannotOpenFile;

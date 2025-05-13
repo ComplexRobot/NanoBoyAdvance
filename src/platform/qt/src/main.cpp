@@ -10,9 +10,12 @@
 #include <QApplication>
 #include <QSurfaceFormat>
 #include <QProxyStyle>
+#include <QtPlugin>
 #include <stdlib.h>
 
 #include "widget/main_window.hpp"
+
+Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 
 #if defined(WIN32)
   #include <QtPlatformHeaders/QWindowsWindowFunctions>

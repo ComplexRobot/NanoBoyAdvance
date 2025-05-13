@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="glad\src\gl.c" />
+    <ClCompile Include="src\nba\src\arm\serialization.cpp" />
+    <ClCompile Include="src\nba\src\arm\tablegen\tablegen.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="src\nba\src\bus\bus.cpp" />
+    <ClCompile Include="src\nba\src\bus\io.cpp" />
+    <ClCompile Include="src\nba\src\bus\serialization.cpp" />
+    <ClCompile Include="src\nba\src\bus\timing.cpp" />
+    <ClCompile Include="src\nba\src\core.cpp" />
+    <ClCompile Include="src\nba\src\hw\apu\apu.cpp" />
+    <ClCompile Include="src\nba\src\hw\apu\callback.cpp" />
+    <ClCompile Include="src\nba\src\hw\apu\channel\noise_channel.cpp" />
+    <ClCompile Include="src\nba\src\hw\apu\channel\quad_channel.cpp" />
+    <ClCompile Include="src\nba\src\hw\apu\channel\wave_channel.cpp" />
+    <ClCompile Include="src\nba\src\hw\apu\hle\mp2k.cpp" />
+    <ClCompile Include="src\nba\src\hw\apu\registers.cpp" />
+    <ClCompile Include="src\nba\src\hw\apu\serialization.cpp" />
+    <ClCompile Include="src\nba\src\hw\dma\dma.cpp" />
+    <ClCompile Include="src\nba\src\hw\dma\serialization.cpp" />
+    <ClCompile Include="src\nba\src\hw\irq\irq.cpp" />
+    <ClCompile Include="src\nba\src\hw\irq\serialization.cpp" />
+    <ClCompile Include="src\nba\src\hw\keypad\keypad.cpp" />
+    <ClCompile Include="src\nba\src\hw\keypad\serialization.cpp" />
+    <ClCompile Include="src\nba\src\hw\ppu\background.cpp" />
+    <ClCompile Include="src\nba\src\hw\ppu\merge.cpp" />
+    <ClCompile Include="src\nba\src\hw\ppu\ppu.cpp" />
+    <ClCompile Include="src\nba\src\hw\ppu\registers.cpp" />
+    <ClCompile Include="src\nba\src\hw\ppu\serialization.cpp" />
+    <ClCompile Include="src\nba\src\hw\ppu\sprite.cpp" />
+    <ClCompile Include="src\nba\src\hw\ppu\window.cpp" />
+    <ClCompile Include="src\nba\src\hw\rom\backup\eeprom.cpp" />
+    <ClCompile Include="src\nba\src\hw\rom\backup\flash.cpp" />
+    <ClCompile Include="src\nba\src\hw\rom\backup\serialization.cpp" />
+    <ClCompile Include="src\nba\src\hw\rom\backup\sram.cpp" />
+    <ClCompile Include="src\nba\src\hw\rom\gpio\gpio.cpp" />
+    <ClCompile Include="src\nba\src\hw\rom\gpio\rtc.cpp" />
+    <ClCompile Include="src\nba\src\hw\rom\gpio\serialization.cpp" />
+    <ClCompile Include="src\nba\src\hw\rom\gpio\solar_sensor.cpp" />
+    <ClCompile Include="src\nba\src\hw\timer\serialization.cpp" />
+    <ClCompile Include="src\nba\src\hw\timer\timer.cpp" />
+    <ClCompile Include="src\nba\src\serialization.cpp" />
+    <ClCompile Include="src\platform\core\src\config.cpp" />
+    <ClCompile Include="src\platform\core\src\device\ogl_video_device.cpp" />
+    <ClCompile Include="src\platform\core\src\device\sdl_audio_device.cpp" />
+    <ClCompile Include="src\platform\core\src\emulator_thread.cpp" />
+    <ClCompile Include="src\platform\core\src\frame_limiter.cpp" />
+    <ClCompile Include="src\platform\core\src\game_db.cpp" />
+    <ClCompile Include="src\platform\core\src\loader\bios.cpp" />
+    <ClCompile Include="src\platform\core\src\loader\rom.cpp" />
+    <ClCompile Include="src\platform\core\src\loader\save_state.cpp" />
+    <ClCompile Include="src\platform\core\src\writer\save_state.cpp" />
+    <ClCompile Include="src\platform\qt\src\config.cpp" />
+    <ClCompile Include="src\platform\qt\src\main.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\controller_manager.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\background_viewer.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\background_viewer_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\color_grid.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_background_viewer.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_background_viewer_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_color_grid.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_palette_viewer.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_palette_viewer_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_sprite_viewer.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_sprite_viewer_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_tile_viewer.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\moc_tile_viewer_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\palette_viewer.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\palette_viewer_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\sprite_viewer.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\sprite_viewer_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\tile_viewer.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\debugger\ppu\tile_viewer_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\input_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\main_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\moc_controller_manager.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\moc_input_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\moc_main_window.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\moc_screen.cpp" />
+    <ClCompile Include="src\platform\qt\src\widget\screen.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Directory.Build.props" />
+    <None Include="src\nba\src\arm\handlers\arithmetic.inl" />
+    <None Include="src\nba\src\arm\handlers\handler16.inl" />
+    <None Include="src\nba\src\arm\handlers\handler32.inl" />
+    <None Include="src\nba\src\arm\handlers\memory.inl" />
+    <None Include="src\nba\src\hw\ppu\background.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\platform\qt\src\widget\controller_manager.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\background_viewer.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\background_viewer_window.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\color_grid.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\palette_viewer.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\palette_viewer_window.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\sprite_viewer.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\sprite_viewer_window.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\tile_viewer.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\tile_viewer_window.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\main_window.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\platform\qt\src\widget\screen.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QtInstallDir)bin\moc" "%(Identity)" -o "%(RelativeDir)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc %(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\platform\qt\version.in.hpp">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cd "%(RelativeDir)"
+cmake -P version.cmake</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename)%(Extension)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cd "%(RelativeDir)"
+cmake -P version.cmake</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename)%(Extension)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RelativeDir)version.hpp;%(RelativeDir)app.rc</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RelativeDir)version.hpp;%(RelativeDir)app.rc</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\platform\qt\app.rc" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{3a7c9152-2358-4b0f-bc47-6a877de62387}</ProjectGuid>
+    <RootNamespace>NanoBoyAdvance</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)src\nba\include;$(SolutionDir)src\nba\src;$(SolutionDir)src\platform\core\include;$(SolutionDir)src\platform\core\src;$(SolutionDir)src\platform\qt;$(SolutionDir)src\platform\qt\src;$(QtInstallDir)include;$(QtInstallDir)include\QtCore;$(QtInstallDir)include\QtWidgets;$(QtInstallDir)include\QtGui;$(SolutionDir)fmt\include;$(SolutionDir)toml11;$(SolutionDir)unarr;$(SolutionDir)glad\include;$(SolutionDir)SDL\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)build\$(Configuration)\;$(QtInstallDir)lib;$(QtInstallDir)plugins\platforms;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Configuration)\$(ShortProjectName)\</IntDir>
+    <EmbedManifest>false</EmbedManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)src\nba\include;$(SolutionDir)src\nba\src;$(SolutionDir)src\platform\core\include;$(SolutionDir)src\platform\core\src;$(SolutionDir)src\platform\qt;$(SolutionDir)src\platform\qt\src;$(QtInstallDir)include;$(QtInstallDir)include\QtCore;$(QtInstallDir)include\QtWidgets;$(QtInstallDir)include\QtGui;$(SolutionDir)fmt\include;$(SolutionDir)toml11;$(SolutionDir)unarr;$(SolutionDir)glad\include;$(SolutionDir)SDL\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)build\$(Configuration)\;$(QtInstallDir)lib;$(QtInstallDir)plugins\platforms;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Configuration)\$(ShortProjectName)\</IntDir>
+    <EmbedManifest>false</EmbedManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
+      <AdditionalOptions>/utf-8 /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4244;4099;4305;4267;4309;4996</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;Qt5ThemeSupportd.lib;Qt5WindowsUIAutomationSupportd.lib;Qt5FontDatabaseSupportd.lib;Qt5EventDispatcherSupportd.lib;qtpcre2d.lib;qtharfbuzzd.lib;qtlibpngd.lib;qtfreetyped.lib;qwindowsd.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4206 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
+      <AdditionalOptions>/utf-8 /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4244;4099;4305;4267;4309;4996</DisableSpecificWarnings>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;Qt5ThemeSupport.lib;Qt5WindowsUIAutomationSupport.lib;Qt5FontDatabaseSupport.lib;Qt5EventDispatcherSupport.lib;qtpcre2.lib;qtharfbuzz.lib;qtlibpng.lib;qtfreetype.lib;qwindows.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/IGNORE:4206 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <PreBuildEvent />
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

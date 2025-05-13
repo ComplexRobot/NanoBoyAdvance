@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C4A7CEA4-E551-37C9-88FD-F84AE8920BC9}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>unarr</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)build\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)build\$(Configuration)\$(ShortProjectName)\</IntDir>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)build\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)build\$(Configuration)\$(ShortProjectName)\</IntDir>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)unarr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SupportJustMyCode>
+      </SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;HAVE_7Z;Z7_PPMD_SUPPORT;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;HAVE_7Z;Z7_PPMD_SUPPORT;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"$(Configuration)\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)unarr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)unarr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)unarr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode>
+      </SupportJustMyCode>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HAVE_7Z;Z7_PPMD_SUPPORT;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <SDLCheck>false</SDLCheck>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HAVE_7Z;Z7_PPMD_SUPPORT;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)unarr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)unarr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="$(SolutionDir)unarr\_7z\_7z.h" />
+    <ClCompile Include="$(SolutionDir)unarr\_7z\_7z.c" />
+    <ClInclude Include="$(SolutionDir)unarr\common\allocator.h" />
+    <ClInclude Include="$(SolutionDir)unarr\common\unarr-imp.h" />
+    <ClCompile Include="$(SolutionDir)unarr\common\conv.c" />
+    <ClCompile Include="$(SolutionDir)unarr\common\crc32.c" />
+    <ClCompile Include="$(SolutionDir)unarr\common\stream.c" />
+    <ClCompile Include="$(SolutionDir)unarr\common\unarr.c" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\7zTypes.h" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\Compiler.h" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\CpuArch.h" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\Ppmd.h" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\Ppmd7.h" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\Ppmd8.h" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\Precomp.h" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\CpuArch.c" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\Ppmd7.c" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\Ppmd8.c" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\Ppmd7Dec.c" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\Ppmd7aDec.c" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\Ppmd8Dec.c" />
+    <ClInclude Include="$(SolutionDir)unarr\rar\lzss.h" />
+    <ClInclude Include="$(SolutionDir)unarr\rar\rar.h" />
+    <ClInclude Include="$(SolutionDir)unarr\rar\rarvm.h" />
+    <ClCompile Include="$(SolutionDir)unarr\rar\filter-rar.c" />
+    <ClCompile Include="$(SolutionDir)unarr\rar\uncompress-rar.c" />
+    <ClCompile Include="$(SolutionDir)unarr\rar\huffman-rar.c" />
+    <ClCompile Include="$(SolutionDir)unarr\rar\rar.c" />
+    <ClCompile Include="$(SolutionDir)unarr\rar\rarvm.c" />
+    <ClCompile Include="$(SolutionDir)unarr\rar\parse-rar.c" />
+    <ClInclude Include="$(SolutionDir)unarr\tar\tar.h" />
+    <ClCompile Include="$(SolutionDir)unarr\tar\parse-tar.c" />
+    <ClCompile Include="$(SolutionDir)unarr\tar\tar.c" />
+    <ClInclude Include="$(SolutionDir)unarr\zip\inflate.h" />
+    <ClInclude Include="$(SolutionDir)unarr\zip\zip.h" />
+    <ClCompile Include="$(SolutionDir)unarr\zip\inflate.c" />
+    <ClCompile Include="$(SolutionDir)unarr\zip\parse-zip.c" />
+    <ClCompile Include="$(SolutionDir)unarr\zip\uncompress-zip.c" />
+    <ClCompile Include="$(SolutionDir)unarr\zip\zip.c" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\LzmaDec.h" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\LzmaDec.c" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\7z.h" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\7zArcIn.c" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\7zBuf.h" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\7zBuf.c" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\7zDec.c" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\7zStream.c" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\7zWindows.h" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\Bcj2.h" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\Bcj2.c" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\Bra.c" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\Bra.h" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\Bra86.c" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\7zCrc.h" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\Delta.h" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\Delta.c" />
+    <ClInclude Include="$(SolutionDir)unarr\lzmasdk\Lzma2Dec.h" />
+    <ClCompile Include="$(SolutionDir)unarr\lzmasdk\Lzma2Dec.c" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

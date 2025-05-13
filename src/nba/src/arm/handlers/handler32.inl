@@ -390,7 +390,7 @@ void ARM_HalfwordSignedTransfer(u32 instruction) {
   state.r15 += 4;
 
   if constexpr (!add) {
-    offset = -offset;
+    offset = 0 - offset;
   }
 
   if constexpr (pre) {
@@ -498,7 +498,7 @@ void ARM_SingleDataTransfer(u32 instruction) {
   state.r15 += 4;
 
   if constexpr(!add) {
-    offset = -offset;
+    offset = 0 - offset;
   }
 
   if constexpr (pre) {

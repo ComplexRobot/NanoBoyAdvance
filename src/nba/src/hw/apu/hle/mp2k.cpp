@@ -317,9 +317,10 @@ void MP2K::RenderReverb(float* destination, u8 strength) {
   static constexpr float k_normalize_coefficients = []() constexpr {
     float sum = 0.0;
 
-    for(auto pair : k_late_coefficients) {
-      sum += pair[0];
-      sum += pair[1];
+    for (size_t i = 0; i < _countof(k_late_coefficients); ++i)
+    {
+      sum += k_late_coefficients[i][0];
+      sum += k_late_coefficients[i][1];
     } 
 
     return 1.0 / sum;

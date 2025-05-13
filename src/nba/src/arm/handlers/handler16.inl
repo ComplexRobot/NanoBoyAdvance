@@ -411,7 +411,7 @@ template <bool sub>
 void Thumb_AddOffsetToSP(u16 instruction) {
   u32 offset = (instruction  & 0x7F) * 4;
 
-  state.r13 = state.r13 + (sub ? -offset : offset);
+  state.r13 = state.r13 + (sub ? 0 - offset : offset);
 
   pipe.access = Access::Code | Access::Sequential;
   state.r15 += 2;

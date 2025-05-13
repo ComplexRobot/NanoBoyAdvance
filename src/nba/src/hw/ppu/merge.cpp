@@ -85,7 +85,7 @@ void PPU::DrawMergeImpl(int cycles) {
 
   const bool have_windows = enable_win0 || enable_win1 || enable_objwin;
 
-  const int* win_layer_enable; // @todo: use bool
+  const int* win_layer_enable = nullptr; // @todo: use bool
 
   auto layers = merge.layers;
   auto colors = merge.colors;

@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <QtInstallDir>D:\Qt\5.15.16\msvc2022-x64-static\</QtInstallDir>
+  </PropertyGroup>
+</Project>
