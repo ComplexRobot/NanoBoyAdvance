@@ -320,7 +320,7 @@ cd "$(SolutionDir)"</Command>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Build|x64'">
     <IncludePath>$(SolutionDir)src\nba\include;$(SolutionDir)src\nba\src;$(SolutionDir)src\platform\core\include;$(SolutionDir)src\platform\core\src;$(SolutionDir)src\platform\qt;$(SolutionDir)src\platform\qt\src;$(QtInstallDir)include;$(QtInstallDir)include\QtCore;$(QtInstallDir)include\QtWidgets;$(QtInstallDir)include\QtGui;$(SolutionDir)fmt\include;$(SolutionDir)toml11;$(SolutionDir)unarr;$(SolutionDir)glad\include;$(SolutionDir)SDL\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)build\$(Configuration)\;$(QtInstallDir)lib;$(QtInstallDir)plugins\platforms;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <LibraryPath>$(SolutionDir)build\Release\;$(QtInstallDir)lib;$(QtInstallDir)plugins\platforms;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)\$(ShortProjectName)\</IntDir>
     <EmbedManifest>false</EmbedManifest>
