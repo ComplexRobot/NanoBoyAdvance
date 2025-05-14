@@ -303,9 +303,6 @@
     <ClCompile Include="src\platform\qt\src\widget\moc_controller_manager.cpp">
       <Filter>platform\qt\moc\out</Filter>
     </ClCompile>
-    <ClCompile Include="src\platform\qt\src\widget\moc_input_window.cpp">
-      <Filter>platform\qt\moc\out</Filter>
-    </ClCompile>
     <ClCompile Include="src\platform\qt\src\widget\moc_main_window.cpp">
       <Filter>platform\qt\moc\out</Filter>
     </ClCompile>
@@ -327,6 +324,7 @@
       <Filter>nba\hw\ppu</Filter>
     </None>
     <None Include="Directory.Build.props" />
+    <None Include=".github\workflows\build.yml" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\background_viewer.hpp">
@@ -365,7 +363,7 @@
     <CustomBuild Include="src\platform\qt\src\widget\debugger\ppu\tile_viewer_window.hpp">
       <Filter>platform\qt\moc</Filter>
     </CustomBuild>
-    <CustomBuild Include="src\platform\qt\version.in.hpp">
+    <CustomBuild Include="src\platform\qt\version.cmake">
       <Filter>platform\qt</Filter>
     </CustomBuild>
   </ItemGroup>

@@ -5,6 +5,8 @@
  * Refer to the included LICENSE file.
  */
 
+#include <algorithm>
+
 #include "config.hpp"
 
 void QtConfig::LoadCustomData(toml::value const& data) {
@@ -63,7 +65,10 @@ void QtConfig::LoadCustomData(toml::value const& data) {
     }
   }
 
-  recent_files = toml::find_or<std::vector<std::string>>(data, "recent_files", {});
+  std::vector<std::string> recent_files_utf8 = toml::find_or<std::vector<std::string>>(data, "recent_files", {});
+  recent_files.clear();
+  recent_files.reserve(recent_files_utf8.size());
+  std::transform(recent_files_utf8.begin(), recent_files_utf8.end(), std::back_inserter(recent_files), [] (const std::string& s) { return (char8_t*)s.c_str(); });
 }
 
 void QtConfig::SaveCustomData(
@@ -93,5 +98,8 @@ void QtConfig::SaveCustomData(
   data["window"]["show_fps"] = window.show_fps;
   data["window"]["pause_emulator_when_inactive"] = window.pause_emulator_when_inactive;
 
-  data["recent_files"] = recent_files;
+  std::vector<std::string> recent_files_utf8;
+  recent_files_utf8.reserve(recent_files.size());
+  std::transform(recent_files.begin(), recent_files.end(), std::back_inserter(recent_files_utf8), [] (const fs::path& path) { return std::string{(char*) path.u8string().c_str()}; });
+  data["recent_files"] = recent_files_utf8;
 }

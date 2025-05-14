@@ -11,6 +11,8 @@
 #include <map>
 #include <platform/config.hpp>
 
+namespace fs = std::filesystem;
+
 namespace nba {
 
 void PlatformConfig::Load(std::string const& path) {
@@ -33,9 +35,9 @@ void PlatformConfig::Load(std::string const& path) {
 
     if(general_result.is_ok()) {
       auto general = general_result.unwrap();
-      this->bios_path = toml::find_or<std::string>(general, "bios_path", "bios.bin");
+      this->bios_path = (char8_t*)toml::find_or<std::string>(general, "bios_path", "bios.bin").c_str();
       this->skip_bios = toml::find_or<toml::boolean>(general, "bios_skip", false);
-      this->save_folder = toml::find_or<std::string>(general, "save_folder", "");
+      this->save_folder = (char8_t*)toml::find_or<std::string>(general, "save_folder", "").c_str();
     }
   }
 
@@ -154,9 +156,9 @@ void PlatformConfig::Save(std::string const& path) {
   }
 
   // General
-  data["general"]["bios_path"] = this->bios_path;
+  data["general"]["bios_path"] = std::string{(char*)this->bios_path.u8string().c_str()};
   data["general"]["bios_skip"] = this->skip_bios;
-  data["general"]["save_folder"] = this->save_folder;
+  data["general"]["save_folder"] = std::string{(char*)this->save_folder.u8string().c_str()};
 
   // Cartridge
   std::string save_type;

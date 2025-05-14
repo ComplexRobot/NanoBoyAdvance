@@ -80,7 +80,7 @@ struct QtConfig final : nba::PlatformConfig {
     bool pause_emulator_when_inactive = true;
   } window;
 
-  std::vector<std::string> recent_files;
+  std::vector<fs::path> recent_files;
 
   void Load() {
     nba::PlatformConfig::Load(config_path);
@@ -96,8 +96,8 @@ struct QtConfig final : nba::PlatformConfig {
     nba::PlatformConfig::Save(config_path);
   }
 
-  void UpdateRecentFiles(std::u16string const& path) {
-    const auto absolute_path = fs::absolute((fs::path)path).string();
+  void UpdateRecentFiles(fs::path const& path) {
+    const auto absolute_path = fs::absolute(path);
 
     const auto match = std::find(recent_files.begin(), recent_files.end(), absolute_path);
 

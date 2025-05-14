@@ -4,6 +4,7 @@ src/platform/qt/version.hpp
 src/platform/qt/app.rc
 src/platform/qt/app.aps
 src/platform/qt/rc/RC*
+/config.toml
 
 # Visual Studio
 out

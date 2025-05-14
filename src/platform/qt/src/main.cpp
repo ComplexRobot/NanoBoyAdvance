@@ -42,12 +42,11 @@ auto create_window(QApplication& app, int argc, char** argv) -> std::unique_ptr<
   fs::path rom;
 
   if(argc >= 2) {
-    rom = fs::path{argv[1]};
+    rom = fs::path{(char8_t*)argv[1]};
 
     if(rom.is_relative()) {
       rom = fs::current_path() / rom;
     }
-    fs::current_path(fs::path{argv[0]}.remove_filename());
   }
 
   auto window = std::make_unique<MainWindow>(&app);
@@ -56,7 +55,7 @@ auto create_window(QApplication& app, int argc, char** argv) -> std::unique_ptr<
   }
 
   if(!rom.empty()) {
-    window->LoadROM(rom.u16string());
+    window->LoadROM(rom);
   }
 
   window->show();

@@ -31,10 +31,10 @@ MainWindow::MainWindow(
   QWidget* parent
 )   : QMainWindow(parent) {
   #ifdef RELEASE_BUILD
-    base_window_title = QStringLiteral("NanoBoyAdvance %1.%2.%3")
+    base_window_title = QStringLiteral("NanoBoyAdvance %1.%2.%3ex")
       .arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_PATCH);
   #else
-    base_window_title = QStringLiteral("NanoBoyAdvance %1.%2.%3 [%4-%5]")
+    base_window_title = QStringLiteral("NanoBoyAdvance %1.%2.%3ex [%4-%5]")
       .arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_PATCH).arg(VERSION_GIT_BRANCH).arg(VERSION_GIT_HASH);
   #endif
 
@@ -483,12 +483,12 @@ void MainWindow::RenderRecentFilesMenu() {
   size_t i = 0;
 
   for(auto& path : config->recent_files) {
-    auto action = recent_menu->addAction(QString::fromStdString(path));
+    auto action = recent_menu->addAction(QString::fromStdU16String(path.u16string()));
 
     action->setShortcut(Qt::CTRL | (Qt::Key) ((int) Qt::Key_0 + i++));
 
     connect(action, &QAction::triggered, [this, path] {
-      LoadROM(QString::fromStdString(path).toStdU16String()); 
+      LoadROM(path);
     });
   }
 
@@ -583,7 +583,7 @@ void MainWindow::SelectBIOS() {
   dialog.setNameFilter("Game Boy Advance BIOS (*.bin)");
 
   if(dialog.exec()) {
-    config->bios_path = dialog.selectedFiles().at(0).toStdString();
+    config->bios_path = dialog.selectedFiles().at(0).toStdU16String();
     config->Save();
     PromptUserForReset();
   }
@@ -595,7 +595,7 @@ void MainWindow::SelectSaveFolder() {
   dialog.setFileMode(QFileDialog::Directory);
 
   if(dialog.exec()) {
-    config->save_folder = dialog.selectedFiles().at(0).toStdString();
+    config->save_folder = dialog.selectedFiles().at(0).toStdU16String();
     config->Save();
     PromptUserForReset();
   }
@@ -757,7 +757,7 @@ void MainWindow::UpdateMainWindowActionList() {
   }
 }
 
-void MainWindow::LoadROM(std::u16string const& path) {
+void MainWindow::LoadROM(fs::path const& path) {
   bool retry;
 
   Stop();
@@ -767,7 +767,7 @@ void MainWindow::LoadROM(std::u16string const& path) {
   do {
     retry = false;
 
-    switch(nba::BIOSLoader::Load(core, QString::fromStdString(config->bios_path).toStdU16String())) {
+    switch(nba::BIOSLoader::Load(core, config->bios_path)) {
       case nba::BIOSLoader::Result::CannotFindFile: {
         QMessageBox box {this};
         box.setText(tr("A Game Boy Advance BIOS file is required but cannot be located.\n\nWould you like to add one now?"));
@@ -806,7 +806,7 @@ void MainWindow::LoadROM(std::u16string const& path) {
     force_gpio = force_gpio | nba::GPIODeviceType::SolarSensor;
   }
 
-  auto save_path = GetSavePath(fs::path{path}, ".sav");
+  auto save_path = GetSavePath(path, ".sav");
   auto save_type = config->cartridge.backup_type;
 
   auto result = nba::ROMLoader::Load(core, path, save_path, save_type, force_gpio);
@@ -837,7 +837,7 @@ void MainWindow::LoadROM(std::u16string const& path) {
 
   // Update the list of save state slots:
   game_loaded = true;
-  game_path = path;
+  game_path = path.u16string();
   RenderSaveStateMenus();
 
   // Reset the core and start the emulation thread.
@@ -912,7 +912,7 @@ auto MainWindow::SaveState(std::u16string const& path) -> nba::SaveStateWriter::
 }
 
 auto MainWindow::GetSavePath(fs::path const& rom_path, fs::path const& extension) -> fs::path {
-  fs::path save_folder = QString::fromStdString(config->save_folder).toStdU16String();
+  fs::path save_folder = config->save_folder;
 
   if(
    !save_folder.empty() &&
