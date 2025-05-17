@@ -15,8 +15,15 @@ namespace nba {
 
 template<typename T>
 struct StereoSample {
-  T left  {};
-  T right {};
+  union {
+    struct {
+      T left;
+      T right;
+    };
+    T channels[2] = {};
+  };
+
+  StereoSample(const T& l = T{}, const T& r = T{}) : left(l), right(r) {}
   
   template <typename U>
   operator StereoSample<U>() {
@@ -24,10 +31,11 @@ struct StereoSample {
   }
   
   T& operator[](int index) {
-    if(index == 0) return left;
-    if(index == 1) return right;
-    
-    throw std::runtime_error("StereoSample<T>: bad index for operator[].");
+    return channels[index];
+  }
+
+  const T& operator[](int index) const {
+    return channels[index];
   }
   
   StereoSample<T> operator+(T scalar) const {

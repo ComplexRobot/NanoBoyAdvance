@@ -11,6 +11,9 @@
 #include <nba/common/dsp/resampler/cubic.hpp>
 #include <nba/common/dsp/resampler/nearest.hpp>
 #include <nba/common/dsp/resampler/sinc.hpp>
+#include "ogg.h"
+#include <iostream>
+#include <windows.h>
 
 #include "apu.hpp"
 
@@ -120,6 +123,10 @@ void APU::OnTimerOverflow(int timer_id, int times) {
   }
 }
 
+static bool writingOgg = false;
+static size_t songCount = 0;
+static size_t silentSamples = 0;
+
 void APU::StepMixer() {
   constexpr int psg_volume_tab[4] = { 1, 2, 4, 0 };
   constexpr int dma_volume_tab[2] = { 2, 4 };
@@ -132,10 +139,10 @@ void APU::StepMixer() {
   if(mp2k.IsEngaged()) {
     StereoSample<float> sample { 0, 0 };
 
-    if(resolution_old != 1) {
+    /*if(resolution_old != 1) {
       resampler->SetSampleRates(65536, config->audio_dev->GetSampleRate());
       resolution_old = 1;
-    }
+    }*/
 
     auto mp2k_sample = mp2k.ReadSample();
 
@@ -160,6 +167,33 @@ void APU::StepMixer() {
     }
 
     if(!mmio.soundcnt.master_enable) sample = {};
+
+    if (writingOgg) {
+      if (std::abs(sample[0]) < OGG::SAMPLE_THRESHOLD && std::abs(sample[1]) < OGG::SAMPLE_THRESHOLD) {
+        if (++silentSamples > 35000) {
+          OGG::End();
+          writingOgg = false;
+        } else {
+          if (silentSamples == 1) {
+            OGG::Flush();
+          }
+          OGG::AddSample(sample);
+        }
+      } else {
+        OGG::AddSample(sample);
+        silentSamples = 0;
+      }
+    } else if (std::abs(sample[0]) >= OGG::SAMPLE_THRESHOLD && std::abs(sample[1]) >= OGG::SAMPLE_THRESHOLD) {
+      std::filesystem::create_directory("sounds");
+      ++songCount;
+      std::string numberString = std::string{} + (songCount < 100 ? "0" : "") + (songCount < 10 ? "0" : "") + std::to_string(songCount);
+      std::string outputString = numberString + "\n";
+      OutputDebugStringA(outputString.c_str());
+      OGG::Start("sounds\\" + numberString + ".ogg");
+      OGG::AddSample(sample);
+      writingOgg = true;
+      silentSamples = 0;
+    }
 
     buffer_mutex.lock();
     resampler->Write(sample);

@@ -14,3 +14,17 @@
 	path = unarr
 	url = https://github.com/selmf/unarr
 	branch = master
+[submodule "libogg"]
+	path = libogg
+	url = https://github.com/gcp/libogg
+	branch = master
+[submodule "vorbis"]
+	path = vorbis
+	url = https://github.com/xiph/vorbis
+	branch = master
+[submodule "pokegbasoundmetaparser"]
+	path = pokegbasoundmetaparser
+	url = https://github.com/ComplexRobot/pokegbasoundmetaparser
+[submodule "sounds"]
+	path = sounds
+	url = https://github.com/ComplexRobot/pokefirered-sound-rip

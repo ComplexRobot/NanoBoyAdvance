@@ -33,6 +33,7 @@
     <ClCompile Include="src\nba\src\hw\apu\channel\quad_channel.cpp" />
     <ClCompile Include="src\nba\src\hw\apu\channel\wave_channel.cpp" />
     <ClCompile Include="src\nba\src\hw\apu\hle\mp2k.cpp" />
+    <ClCompile Include="src\nba\src\hw\apu\ogg.cpp" />
     <ClCompile Include="src\nba\src\hw\apu\registers.cpp" />
     <ClCompile Include="src\nba\src\hw\apu\serialization.cpp" />
     <ClCompile Include="src\nba\src\hw\dma\dma.cpp" />
@@ -261,6 +262,9 @@ cd "$(SolutionDir)"</Command>
   <ItemGroup>
     <ResourceCompile Include="src\platform\qt\app.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\nba\src\hw\apu\ogg.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -305,21 +309,21 @@ cd "$(SolutionDir)"</Command>
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)src\nba\include;$(SolutionDir)src\nba\src;$(SolutionDir)src\platform\core\include;$(SolutionDir)src\platform\core\src;$(SolutionDir)src\platform\qt;$(SolutionDir)src\platform\qt\src;$(QtInstallDir)include;$(QtInstallDir)include\QtCore;$(QtInstallDir)include\QtWidgets;$(QtInstallDir)include\QtGui;$(SolutionDir)fmt\include;$(SolutionDir)toml11;$(SolutionDir)unarr;$(SolutionDir)glad\include;$(SolutionDir)SDL\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src\nba\include;$(SolutionDir)src\nba\src;$(SolutionDir)src\platform\core\include;$(SolutionDir)src\platform\core\src;$(SolutionDir)src\platform\qt;$(SolutionDir)src\platform\qt\src;$(QtInstallDir)include;$(QtInstallDir)include\QtCore;$(QtInstallDir)include\QtWidgets;$(QtInstallDir)include\QtGui;$(SolutionDir)fmt\include;$(SolutionDir)toml11;$(SolutionDir)unarr;$(SolutionDir)glad\include;$(SolutionDir)SDL\include;$(SolutionDir)libogg\include;$(SolutionDir)vorbis\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)build\$(Configuration)\;$(QtInstallDir)lib;$(QtInstallDir)plugins\platforms;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)\$(ShortProjectName)\</IntDir>
     <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)src\nba\include;$(SolutionDir)src\nba\src;$(SolutionDir)src\platform\core\include;$(SolutionDir)src\platform\core\src;$(SolutionDir)src\platform\qt;$(SolutionDir)src\platform\qt\src;$(QtInstallDir)include;$(QtInstallDir)include\QtCore;$(QtInstallDir)include\QtWidgets;$(QtInstallDir)include\QtGui;$(SolutionDir)fmt\include;$(SolutionDir)toml11;$(SolutionDir)unarr;$(SolutionDir)glad\include;$(SolutionDir)SDL\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src\nba\include;$(SolutionDir)src\nba\src;$(SolutionDir)src\platform\core\include;$(SolutionDir)src\platform\core\src;$(SolutionDir)src\platform\qt;$(SolutionDir)src\platform\qt\src;$(QtInstallDir)include;$(QtInstallDir)include\QtCore;$(QtInstallDir)include\QtWidgets;$(QtInstallDir)include\QtGui;$(SolutionDir)fmt\include;$(SolutionDir)toml11;$(SolutionDir)unarr;$(SolutionDir)glad\include;$(SolutionDir)SDL\include;$(SolutionDir)libogg\include;$(SolutionDir)vorbis\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)build\$(Configuration)\;$(QtInstallDir)lib;$(QtInstallDir)plugins\platforms;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)\$(ShortProjectName)\</IntDir>
     <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Build|x64'">
-    <IncludePath>$(SolutionDir)src\nba\include;$(SolutionDir)src\nba\src;$(SolutionDir)src\platform\core\include;$(SolutionDir)src\platform\core\src;$(SolutionDir)src\platform\qt;$(SolutionDir)src\platform\qt\src;$(QtInstallDir)include;$(QtInstallDir)include\QtCore;$(QtInstallDir)include\QtWidgets;$(QtInstallDir)include\QtGui;$(SolutionDir)fmt\include;$(SolutionDir)toml11;$(SolutionDir)unarr;$(SolutionDir)glad\include;$(SolutionDir)SDL\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src\nba\include;$(SolutionDir)src\nba\src;$(SolutionDir)src\platform\core\include;$(SolutionDir)src\platform\core\src;$(SolutionDir)src\platform\qt;$(SolutionDir)src\platform\qt\src;$(QtInstallDir)include;$(QtInstallDir)include\QtCore;$(QtInstallDir)include\QtWidgets;$(QtInstallDir)include\QtGui;$(SolutionDir)fmt\include;$(SolutionDir)toml11;$(SolutionDir)unarr;$(SolutionDir)glad\include;$(SolutionDir)SDL\include;$(SolutionDir)libogg\include;$(SolutionDir)vorbis\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)build\Release\;$(QtInstallDir)lib;$(QtInstallDir)plugins\platforms;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Configuration)\$(ShortProjectName)\</IntDir>
@@ -342,7 +346,7 @@ cd "$(SolutionDir)"</Command>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;Qt5ThemeSupportd.lib;Qt5WindowsUIAutomationSupportd.lib;Qt5FontDatabaseSupportd.lib;Qt5EventDispatcherSupportd.lib;qtpcre2d.lib;qtharfbuzzd.lib;qtlibpngd.lib;qtfreetyped.lib;qwindowsd.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;libogg.lib;libvorbis.lib;Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;Qt5ThemeSupportd.lib;Qt5WindowsUIAutomationSupportd.lib;Qt5FontDatabaseSupportd.lib;Qt5EventDispatcherSupportd.lib;qtpcre2d.lib;qtharfbuzzd.lib;qtlibpngd.lib;qtfreetyped.lib;qwindowsd.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4206 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent />
@@ -371,7 +375,7 @@ cd "$(SolutionDir)"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;Qt5ThemeSupport.lib;Qt5WindowsUIAutomationSupport.lib;Qt5FontDatabaseSupport.lib;Qt5EventDispatcherSupport.lib;qtpcre2.lib;qtharfbuzz.lib;qtlibpng.lib;qtfreetype.lib;qwindows.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;libogg.lib;libvorbis.lib;Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;Qt5ThemeSupport.lib;Qt5WindowsUIAutomationSupport.lib;Qt5FontDatabaseSupport.lib;Qt5EventDispatcherSupport.lib;qtpcre2.lib;qtharfbuzz.lib;qtlibpng.lib;qtfreetype.lib;qwindows.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4206 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent />
@@ -400,7 +404,7 @@ cd "$(SolutionDir)"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;Qt5ThemeSupport.lib;Qt5WindowsUIAutomationSupport.lib;Qt5FontDatabaseSupport.lib;Qt5EventDispatcherSupport.lib;qtpcre2.lib;qtharfbuzz.lib;qtlibpng.lib;qtfreetype.lib;qwindows.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;libogg.lib;libvorbis.lib;Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;Qt5ThemeSupport.lib;Qt5WindowsUIAutomationSupport.lib;Qt5FontDatabaseSupport.lib;Qt5EventDispatcherSupport.lib;qtpcre2.lib;qtharfbuzz.lib;qtlibpng.lib;qtfreetype.lib;qwindows.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4206 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent />

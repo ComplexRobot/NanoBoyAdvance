@@ -18,6 +18,8 @@ struct CubicResampler : Resampler<T> {
   }
   
   void Write(T const& input) final {
+    this->output->Write(input);
+    return;
     while(resample_phase < 1.0) {
       // http://paulbourke.net/miscellaneous/interpolation/
       T a0, a1, a2, a3;

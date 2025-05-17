@@ -306,6 +306,9 @@
     <ClCompile Include="src\platform\qt\src\widget\moc_main_window.cpp">
       <Filter>platform\qt\moc\out</Filter>
     </ClCompile>
+    <ClCompile Include="src\nba\src\hw\apu\ogg.cpp">
+      <Filter>nba\hw\apu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\nba\src\arm\handlers\arithmetic.inl">
@@ -371,5 +374,10 @@
     <ResourceCompile Include="src\platform\qt\app.rc">
       <Filter>platform\qt</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\nba\src\hw\apu\ogg.h">
+      <Filter>nba\hw\apu</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

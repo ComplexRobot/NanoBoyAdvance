@@ -31,7 +31,7 @@ private:
   SDL_AudioCallback passthrough = nullptr;
   SDL_AudioDeviceID device;
   SDL_AudioSpec have;
-  int want_sample_rate = 48000;
+  int want_sample_rate = 65536;
   int want_block_size = 2048;
   bool opened = false;
   bool paused = false;

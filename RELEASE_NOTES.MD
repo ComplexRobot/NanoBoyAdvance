@@ -1,6 +1,1 @@
-> [!WARNING]
-> Not actively maintained or updated.
-
-Rebuilt with Visual Studio.
-
-* Added full Unicode file path support.
+Custom build that auto-saves sounds. Made to work with [pokefirered-tool](https://github.com/ComplexRobot/pokefirered-tool/tree/audio-tool).

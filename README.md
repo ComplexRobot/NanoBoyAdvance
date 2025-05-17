@@ -1,3 +1,7 @@
+Custom build that auto-saves sounds. Made to work with [pokefirered-tool](https://github.com/ComplexRobot/pokefirered-tool/tree/audio-tool).
+
+Expects a custom ROM that plays the sounds and MP2K enabled.
+
 <h2>NanoBoyAdvance</h2>
 
 ![license](https://img.shields.io/github/license/nba-emu/NanoBoyAdvance)
