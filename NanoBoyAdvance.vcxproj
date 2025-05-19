@@ -36,6 +36,7 @@
     <ClCompile Include="src\nba\src\hw\apu\ogg.cpp" />
     <ClCompile Include="src\nba\src\hw\apu\registers.cpp" />
     <ClCompile Include="src\nba\src\hw\apu\serialization.cpp" />
+    <ClCompile Include="src\nba\src\hw\apu\SongData.cpp" />
     <ClCompile Include="src\nba\src\hw\dma\dma.cpp" />
     <ClCompile Include="src\nba\src\hw\dma\serialization.cpp" />
     <ClCompile Include="src\nba\src\hw\irq\irq.cpp" />
@@ -264,6 +265,7 @@ cd "$(SolutionDir)"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\nba\src\hw\apu\ogg.h" />
+    <ClInclude Include="src\nba\src\hw\apu\SongData.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -333,7 +335,7 @@ cd "$(SolutionDir)"</Command>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;PORTABLE_MODE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PORTABLE_MODE;NOMINMAX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -356,7 +358,7 @@ cd "$(SolutionDir)"</Command>
       <WarningLevel>Level3</WarningLevel>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;PORTABLE_MODE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PORTABLE_MODE;NOMINMAX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -385,7 +387,7 @@ cd "$(SolutionDir)"</Command>
       <WarningLevel>Level3</WarningLevel>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>WIN32;PORTABLE_MODE;NDEBUG;RELEASE_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PORTABLE_MODE;NOMINMAX;NDEBUG;RELEASE_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>

@@ -20,10 +20,11 @@ struct StereoSample {
       T left;
       T right;
     };
-    T channels[2] = {};
+    T channels[2];
   };
 
-  StereoSample(const T& l = T{}, const T& r = T{}) : left(l), right(r) {}
+  StereoSample(const T&) = delete;
+  StereoSample(const T& left = T{}, const T& right = T{}) : left(left), right(right) {}
   
   template <typename U>
   operator StereoSample<U>() {

@@ -20,15 +20,21 @@ namespace nba::core {
     static std::vector<StereoSample<float>> buffer;
     static int id;
     static std::ofstream outFile;
+    static bool stereo;
+    static bool autoFlush;
+    static size_t maxSamples;
     static const size_t MAX_BUFFER_SIZE = 36864;
 
   public:
     static size_t sampleCount;
     static const float SAMPLE_THRESHOLD;
-    static void Start(const std::filesystem::path& path);
+    static void Start(const std::filesystem::path& path, bool stereo = true);
     static void AddSample(const StereoSample<float>& sample);
     static void Flush();
     static void End();
+    static size_t GetSampleCount();
+    static void SetAutoFlush(bool value);
+    static void SetMaxSamples(size_t value);
   private:
     static void WriteDataToFile();
     static void TrimBuffer();

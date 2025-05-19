@@ -14,6 +14,7 @@
 #include <stdlib.h>
 
 #include "widget/main_window.hpp"
+#include "hw\apu\SongData.h"
 
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 
@@ -112,6 +113,8 @@ int main(int argc, char** argv) {
   if(!window) {
     return EXIT_FAILURE;
   }
+
+  nba::LoadSongData();
 
   return app.exec();
 }

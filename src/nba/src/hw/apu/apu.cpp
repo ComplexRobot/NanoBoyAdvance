@@ -11,11 +11,12 @@
 #include <nba/common/dsp/resampler/cubic.hpp>
 #include <nba/common/dsp/resampler/nearest.hpp>
 #include <nba/common/dsp/resampler/sinc.hpp>
-#include "ogg.h"
 #include <iostream>
 #include <windows.h>
 
 #include "apu.hpp"
+#include "ogg.h"
+#include "SongData.h"
 
 namespace nba::core {
 
@@ -126,6 +127,7 @@ void APU::OnTimerOverflow(int timer_id, int times) {
 static bool writingOgg = false;
 static size_t songCount = 0;
 static size_t silentSamples = 0;
+static size_t loopPoint = 0;
 
 void APU::StepMixer() {
   constexpr int psg_volume_tab[4] = { 1, 2, 4, 0 };
@@ -173,6 +175,10 @@ void APU::StepMixer() {
         if (++silentSamples > 35000) {
           OGG::End();
           writingOgg = false;
+          if (songData[songCount].looping) {
+            std::ofstream loopPointFile("sounds\\loop-points.csv", std::ofstream::app | std::ofstream::ate);
+            loopPointFile << songData[songCount].name << ',' << (std::round(loopPoint / 6583.5) / 10) << std::endl;
+          }
         } else {
           if (silentSamples == 1) {
             OGG::Flush();
@@ -183,14 +189,20 @@ void APU::StepMixer() {
         OGG::AddSample(sample);
         silentSamples = 0;
       }
-    } else if (std::abs(sample[0]) >= OGG::SAMPLE_THRESHOLD && std::abs(sample[1]) >= OGG::SAMPLE_THRESHOLD) {
+
+    } else if (std::abs(sample[0]) >= OGG::SAMPLE_THRESHOLD || std::abs(sample[1]) >= OGG::SAMPLE_THRESHOLD) {
       std::filesystem::create_directory("sounds");
       ++songCount;
+      std::string name = songData[songCount].name;
       std::string numberString = std::string{} + (songCount < 100 ? "0" : "") + (songCount < 10 ? "0" : "") + std::to_string(songCount);
-      std::string outputString = numberString + "\n";
+      std::string outputString = numberString + " " + name + "\n";
       OutputDebugStringA(outputString.c_str());
-      OGG::Start("sounds\\" + numberString + ".ogg");
+      OGG::Start("sounds\\" + (name.empty() ? numberString : name) + ".ogg", songData[songCount].stereo);
       OGG::AddSample(sample);
+      if (songData[songCount].looping) {
+        loopPoint = (size_t)std::ceil((songData[songCount].loopStartPoint * 1024 * 80.0 * 65835 / 65536 / songData[songCount].tempo + 32917.5) / 6584) * 6584;
+        OGG::SetMaxSamples(loopPoint + (size_t)std::round((songData[songCount].duration - songData[songCount].loopStartPoint) * 1024 * 80.0 * 65835 / 65536 / songData[songCount].tempo));
+      }
       writingOgg = true;
       silentSamples = 0;
     }

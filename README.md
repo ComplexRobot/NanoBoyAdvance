@@ -1,6 +1,10 @@
 Custom build that auto-saves sounds. Made to work with [pokefirered-tool](https://github.com/ComplexRobot/pokefirered-tool/tree/audio-tool).
 
-Expects a custom ROM that plays the sounds and MP2K enabled.
+Expects a custom ROM that plays the sounds and MP2K enabled (cubic filter and forced reverb were off and the built-in downsampling is disabled through code).
+
+Reads in a [metadata file](https://github.com/ComplexRobot/pokegbasoundmetaparser) for perfectly loopable sounds and music.
+
+Sounds are saved [here](https://github.com/ComplexRobot/pokefirered-sound-rip) as `.ogg` files using [libvorbis](https://github.com/xiph/vorbis).
 
 <h2>NanoBoyAdvance</h2>
 

@@ -309,6 +309,9 @@
     <ClCompile Include="src\nba\src\hw\apu\ogg.cpp">
       <Filter>nba\hw\apu</Filter>
     </ClCompile>
+    <ClCompile Include="src\nba\src\hw\apu\SongData.cpp">
+      <Filter>nba\hw\apu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\nba\src\arm\handlers\arithmetic.inl">
@@ -377,6 +380,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\nba\src\hw\apu\ogg.h">
+      <Filter>nba\hw\apu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nba\src\hw\apu\SongData.h">
       <Filter>nba\hw\apu</Filter>
     </ClInclude>
   </ItemGroup>

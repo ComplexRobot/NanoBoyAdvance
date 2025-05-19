@@ -1,3 +1,4 @@
+#include <limits>
 #include "ogg.h"
 
 namespace nba::core {
@@ -15,11 +16,17 @@ namespace nba::core {
   std::ofstream OGG::outFile;
   size_t OGG::sampleCount;
   const float OGG::SAMPLE_THRESHOLD = 0.000001;
+  bool OGG::stereo = true;
+  bool OGG::autoFlush = true;
+  size_t OGG::maxSamples = std::numeric_limits<size_t>::max();
 
 
-  void OGG::Start(const std::filesystem::path& path) {
+  void OGG::Start(const std::filesystem::path& path, bool stereo) {
+    OGG::stereo = stereo;
+    autoFlush = true;
+    maxSamples = std::numeric_limits<size_t>::max();
     vorbis_info_init(&vi);
-    if (vorbis_encode_init_vbr(&vi, 2, 65536, 1) != 0) {
+    if (vorbis_encode_init_vbr(&vi, (stereo ? 2 : 1), 65835, 1) != 0) {
       /// TODO: error recovery
       vorbis_info_clear(&vi);
       return;
@@ -54,9 +61,12 @@ namespace nba::core {
   }
 
   void OGG::AddSample(const StereoSample<float>& sample) {
-    buffer.push_back(sample);
-    ++sampleCount;
-    if (buffer.size() >= MAX_BUFFER_SIZE) {
+    if (sampleCount < maxSamples) {
+      buffer.push_back(sample);
+      ++sampleCount;
+    }
+    
+    if (autoFlush && buffer.size() >= MAX_BUFFER_SIZE) {
       Flush();
     }
   }
@@ -67,12 +77,22 @@ namespace nba::core {
     }
 
     float** stream = vorbis_analysis_buffer(&vd, buffer.size());
-    float* left = stream[0];
-    float* right = stream[1];
 
-    for (const StereoSample<float>& sample : buffer) {
-      *left++ = sample[0];
-      *right++ = sample[1];
+    if (stereo) {
+      float* left = stream[0];
+      float* right = stream[1];
+
+      for (const StereoSample<float>& sample : buffer) {
+        *left++ = sample[0];
+        *right++ = sample[1];
+      }
+
+    } else {
+      float* mono = stream[0];
+
+      for (const StereoSample<float>& sample : buffer) {
+        *mono++ = sample[0];
+      }
     }
 
     vorbis_analysis_wrote(&vd, buffer.size());
@@ -92,6 +112,18 @@ namespace nba::core {
     vorbis_dsp_clear(&vd);
     vorbis_comment_clear(&vc);
     vorbis_info_clear(&vi);
+  }
+
+  size_t OGG::GetSampleCount() {
+    return sampleCount;
+  }
+
+  void OGG::SetAutoFlush(bool value) {
+    autoFlush = value;
+  }
+
+  void OGG::SetMaxSamples(size_t value) {
+    maxSamples = value;
   }
 
   void OGG::WriteDataToFile() {
