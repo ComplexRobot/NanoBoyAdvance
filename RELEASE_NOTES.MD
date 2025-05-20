@@ -4,4 +4,4 @@ Custom build that auto-saves sounds. Made to work with [pokefirered-tool](https:
 * Output files are [here](https://github.com/ComplexRobot/pokefirered-sound-rip).
 
 This version:
-* Adds a bug fix from the song metadata not correctly recognizing a stereo song when the first track is mono. (Does not affect this project.)
+* Adds a bug fix from the song metadata which accounts for a change in the song processing when looping. (Does not affect this project.)
