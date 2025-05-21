@@ -5,14 +5,13 @@
 
 namespace nba {
 
-  // Index,Filename,Tempo,Tick Length,Looping,Loop Start,Stereo
+  // Index,Filename,Duration,Looping,Loop Start,Stereo
   class SongData {
   public:
     std::string name;
-    int64_t tempo;
-    int64_t duration;
+    double duration;
     bool looping;
-    int64_t loopStartPoint;
+    double loopStartPoint;
     bool stereo;
   };
 

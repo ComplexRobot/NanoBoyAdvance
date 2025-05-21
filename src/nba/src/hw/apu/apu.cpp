@@ -200,8 +200,8 @@ void APU::StepMixer() {
       OGG::Start("sounds\\" + (name.empty() ? numberString : name) + ".ogg", songData[songCount].stereo);
       OGG::AddSample(sample);
       if (songData[songCount].looping) {
-        loopPoint = (size_t)std::ceil((songData[songCount].loopStartPoint * 1024 * 80.0 * 65835 / 65536 / songData[songCount].tempo + 32917.5) / 6584) * 6584;
-        OGG::SetMaxSamples(loopPoint + (size_t)std::round((songData[songCount].duration - songData[songCount].loopStartPoint) * 1024 * 80.0 * 65835 / 65536 / songData[songCount].tempo));
+        loopPoint = (size_t)std::ceil((songData[songCount].loopStartPoint + 0.52) * 65835 / 6584) * 6584;
+        OGG::SetMaxSamples(loopPoint + (size_t)std::round((songData[songCount].duration - songData[songCount].loopStartPoint) * 65835));
       }
       writingOgg = true;
       silentSamples = 0;

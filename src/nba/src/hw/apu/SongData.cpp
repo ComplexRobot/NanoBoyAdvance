@@ -23,12 +23,11 @@ namespace nba {
     // Skip first line
     while (c < end && *c++ != '\n');
 
-    // Index,Filename,Tempo,Tick Length,Looping,Loop Start,Stereo
+    // Index,Filename,Duration,Looping,Loop Start,Stereo
     enum Column : size_t {
       INDEX,
       FILENAME,
-      TEMPO,
-      TICK_LENGTH,
+      DURATION,
       LOOPING,
       LOOP_START,
       STEREO,
@@ -48,17 +47,14 @@ namespace nba {
         case FILENAME:
           songData[index].name = currentLine;
           break;
-        case TEMPO:
-          songData[index].tempo = std::stoll(currentLine);
-          break;
-        case TICK_LENGTH:
-          songData[index].duration = std::stoll(currentLine);
+        case DURATION:
+          songData[index].duration = std::stod(currentLine);
           break;
         case LOOPING:
           songData[index].looping = (currentLine == "TRUE" ? true : false);
           break;
         case LOOP_START:
-          songData[index].loopStartPoint = std::stoll(currentLine);
+          songData[index].loopStartPoint = std::stod(currentLine);
           break;
         case STEREO:
           songData[index].stereo = (currentLine == "TRUE" ? true : false);
