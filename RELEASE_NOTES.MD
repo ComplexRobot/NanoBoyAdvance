@@ -4,4 +4,5 @@ Custom build that auto-saves sounds. Made to work with [pokefirered-tool](https:
 * Output files are [here](https://github.com/ComplexRobot/pokefirered-sound-rip).
 
 This version:
-* Adds a bug fix from the song metadata which accounts for a change in the song processing when looping. (Does not affect this project.)
+* Bug fix for the song metadata. It now takes into account when the tempo changes mid-song for correct timing.
+* Metadata for duration and loop points is now in seconds for accuracy and ease-of-use.
