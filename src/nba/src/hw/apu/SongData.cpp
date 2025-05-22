@@ -51,13 +51,13 @@ namespace nba {
           songData[index].duration = std::stod(currentLine);
           break;
         case LOOPING:
-          songData[index].looping = (currentLine == "TRUE" ? true : false);
+          songData[index].looping = currentLine == "TRUE";
           break;
         case LOOP_START:
           songData[index].loopStartPoint = std::stod(currentLine);
           break;
         case STEREO:
-          songData[index].stereo = (currentLine == "TRUE" ? true : false);
+          songData[index].stereo = currentLine == "TRUE";
           break;
         }
 
