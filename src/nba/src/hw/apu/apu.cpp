@@ -13,6 +13,8 @@
 #include <nba/common/dsp/resampler/sinc.hpp>
 #include <iostream>
 #include <windows.h>
+#include <iomanip>
+#include <limits>
 
 #include "apu.hpp"
 #include "ogg.h"
@@ -177,7 +179,7 @@ void APU::StepMixer() {
           writingOgg = false;
           if (songData[songCount].looping) {
             std::ofstream loopPointFile("sounds\\loop-points.csv", std::ofstream::app | std::ofstream::ate);
-            loopPointFile << songData[songCount].name << ',' << (std::round(loopPoint / 6583.5) / 10) << std::endl;
+            loopPointFile << songData[songCount].name << ',' << std::setprecision(4) << (loopPoint / 65835.0) << std::endl;
           }
         } else {
           if (silentSamples == 1) {
@@ -198,11 +200,12 @@ void APU::StepMixer() {
       std::string outputString = numberString + " " + name + "\n";
       OutputDebugStringA(outputString.c_str());
       OGG::Start("sounds\\" + (name.empty() ? numberString : name) + ".ogg", songData[songCount].stereo);
-      OGG::AddSample(sample);
       if (songData[songCount].looping) {
-        loopPoint = (size_t)std::ceil((songData[songCount].loopStartPoint + 0.52) * 65835 / 6584) * 6584;
-        OGG::SetMaxSamples(loopPoint + (size_t)std::round((songData[songCount].duration - songData[songCount].loopStartPoint) * 65835));
+        loopPoint = std::round(std::ceil((songData[songCount].loopStartPoint + 0.5) * 10) * 6583.5);
+        size_t maxSamples = loopPoint + (size_t)std::round((songData[songCount].duration - songData[songCount].loopStartPoint) * 65835);
+        OGG::SetMaxSamples(maxSamples);
       }
+      OGG::AddSample(sample);
       writingOgg = true;
       silentSamples = 0;
     }

@@ -35,6 +35,7 @@ namespace nba::core {
     static size_t GetSampleCount();
     static void SetAutoFlush(bool value);
     static void SetMaxSamples(size_t value);
+    static size_t GetMaxSamples();
   private:
     static void WriteDataToFile();
     static void TrimBuffer();

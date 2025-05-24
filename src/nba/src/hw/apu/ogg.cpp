@@ -101,7 +101,9 @@ namespace nba::core {
   }
 
   void OGG::End() {
-    TrimBuffer();
+    if (maxSamples == std::numeric_limits<size_t>::max()) {
+      TrimBuffer();
+    }
     Flush();
     vorbis_analysis_wrote(&vd, 0);
     WriteDataToFile();
@@ -124,6 +126,10 @@ namespace nba::core {
 
   void OGG::SetMaxSamples(size_t value) {
     maxSamples = value;
+  }
+
+  size_t OGG::GetMaxSamples() {
+    return maxSamples;
   }
 
   void OGG::WriteDataToFile() {

@@ -4,5 +4,4 @@ Custom build that auto-saves sounds. Made to work with [pokefirered-tool](https:
 * Output files are [here](https://github.com/ComplexRobot/pokefirered-sound-rip).
 
 This version:
-* Simplified the loop variation (loop played twice) to only apply to Route 1. (It's unknown why this happens for Route 1.)
-* Some code cleanup.
+* Slight adjustments for loopable sounds. (Child projects have been edited.)
