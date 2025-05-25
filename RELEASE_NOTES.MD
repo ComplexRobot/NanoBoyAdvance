@@ -4,4 +4,4 @@ Custom build that auto-saves sounds. Made to work with [pokefirered-tool](https:
 * Output files are [here](https://github.com/ComplexRobot/pokefirered-sound-rip).
 
 This version:
-* Fix another sound glitch (this project is unaffected).
+* Fix loop glitch noise by applying a slight crossfade at the end.

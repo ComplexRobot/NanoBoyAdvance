@@ -130,6 +130,7 @@ static bool writingOgg = false;
 static size_t songCount = 0;
 static size_t silentSamples = 0;
 static size_t loopPoint = 0;
+static std::vector<StereoSample<float>> crossFadeSamples;
 
 void APU::StepMixer() {
   constexpr int psg_volume_tab[4] = { 1, 2, 4, 0 };
@@ -172,7 +173,22 @@ void APU::StepMixer() {
 
     if(!mmio.soundcnt.master_enable) sample = {};
 
+    constexpr size_t CROSS_FADE_LENGTH = 65835.0 / 60 + 0.5;
+
     if (writingOgg) {
+
+      if (songData[songCount].looping) {
+        if (OGG::GetSampleCount() >= loopPoint - CROSS_FADE_LENGTH && OGG::GetSampleCount() < loopPoint) {
+          crossFadeSamples.push_back(sample);
+
+        } else if (OGG::GetSampleCount() >= OGG::GetMaxSamples() - CROSS_FADE_LENGTH && OGG::GetSampleCount() < OGG::GetMaxSamples()) {
+          size_t i = OGG::GetSampleCount() - (OGG::GetMaxSamples() - CROSS_FADE_LENGTH);
+          float weight = (float)(i + 1) / CROSS_FADE_LENGTH;
+          sample[0] = (1 - weight) * sample[0] + weight * crossFadeSamples[i][0];
+          sample[1] = (1 - weight) * sample[1] + weight * crossFadeSamples[i][1];
+        }
+      }
+
       if (std::abs(sample[0]) < OGG::SAMPLE_THRESHOLD && std::abs(sample[1]) < OGG::SAMPLE_THRESHOLD) {
         if (++silentSamples > 35000) {
           OGG::End();
@@ -208,6 +224,7 @@ void APU::StepMixer() {
       OGG::AddSample(sample);
       writingOgg = true;
       silentSamples = 0;
+      crossFadeSamples.clear();
     }
 
     buffer_mutex.lock();
