@@ -35,7 +35,7 @@ jobs:
           call "%SET_VC_VARS%"
           if "${{ github.ref_name }}"=="master" (
             msbuild NanoBoyAdvance.sln /p:Configuration=Release-Build /p:Platform=x64 /m /v:minimal /nologo
-            echo tag-name=v1.8.1ex >> "%GITHUB_OUTPUT%"
+            echo tag-name=v1.8.2ex >> "%GITHUB_OUTPUT%"
             echo make-latest=true >> "%GITHUB_OUTPUT%"
           ) else (
             msbuild NanoBoyAdvance.sln /p:Configuration=Release /p:Platform=x64 /m /v:minimal /nologo
