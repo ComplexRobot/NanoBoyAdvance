@@ -312,6 +312,9 @@
     <ClCompile Include="src\nba\src\hw\apu\SongData.cpp">
       <Filter>nba\hw\apu</Filter>
     </ClCompile>
+    <ClCompile Include="src\nba\include\nba\rom\ROMMapping.cpp">
+      <Filter>nba\hw\rom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\nba\src\arm\handlers\arithmetic.inl">
@@ -384,6 +387,15 @@
     </ClInclude>
     <ClInclude Include="src\nba\src\hw\apu\SongData.h">
       <Filter>nba\hw\apu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nba\include\nba\rom\ROMMapping.h">
+      <Filter>nba\hw\rom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nba\include\nba\rom\gba\m4a_internal.h">
+      <Filter>nba\hw\rom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\nba\include\nba\rom\main.h">
+      <Filter>nba\hw\rom</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -16,8 +16,11 @@
 #include <nba/common/punning.hpp>
 #include <nba/save_state.hpp>
 #include <vector>
+#include <array>
 
 namespace nba {
+
+  static constexpr size_t kMaxROMSize = 32 * 1024 * 1024; // 32 MiB
 
 /**
  * TODO:
@@ -33,14 +36,14 @@ struct ROM {
     std::unique_ptr<Backup>&& backup,
     std::unique_ptr<GPIO>&& gpio,
     u32 rom_mask = 0x01FF'FFFF
-  )   : rom(std::move(rom))
-      , gpio(std::move(gpio))
+  )   : gpio(std::move(gpio))
       , rom_mask(rom_mask) {
+    std::memcpy(this->rom.data(), rom.data(), rom.size());
     if(backup != nullptr) {
       if(typeid(*backup.get()) == typeid(EEPROM)) {
         backup_eeprom = std::move(backup);
 
-        if(this->rom.size() >= 0x0100'0001) {
+        if(rom.size() >= 0x0100'0001) {
           eeprom_mask = 0x01FF'FF00;
         } else {
           eeprom_mask = 0x0100'0000;
@@ -69,7 +72,7 @@ struct ROM {
     return *this;
   }
 
-  auto GetRawROM() -> std::vector<u8>& {
+  auto GetRawROM() -> std::array<u8, kMaxROMSize>& {
     return rom;
   }
 
@@ -222,7 +225,7 @@ private:
     return backup_eeprom && (address & eeprom_mask) == eeprom_mask;
   }
 
-  std::vector<u8> rom;
+  std::array<u8, kMaxROMSize> rom;
   std::unique_ptr<Backup> backup_sram;
   std::unique_ptr<Backup> backup_eeprom;
   std::unique_ptr<GPIO> gpio;

@@ -23,7 +23,7 @@ struct SaveStateWriter {
   };
 
   static auto Write(
-    std::unique_ptr<CoreBase>& core,
+    CoreBase* core,
     fs::path const& path
   ) -> Result;
 };

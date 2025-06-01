@@ -39,6 +39,7 @@ void FrameLimiter::Run(
   std::function<void(void)> frame_advance,
   std::function<void(float)> update_fps
 ) {
+  fast_forward = true;
   if(!fast_forward) {
     timestamp_target += std::chrono::microseconds(frame_duration);
   }

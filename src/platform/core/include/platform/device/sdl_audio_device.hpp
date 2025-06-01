@@ -10,6 +10,7 @@
 #include <nba/log.hpp>
 #include <nba/device/audio_device.hpp>
 #include <SDL.h>
+#include "hw\apu\apu.hpp"
 
 namespace nba {
 
@@ -31,8 +32,8 @@ private:
   SDL_AudioCallback passthrough = nullptr;
   SDL_AudioDeviceID device;
   SDL_AudioSpec have;
-  int want_sample_rate = 65536;
-  int want_block_size = 2048;
+  int want_sample_rate = 96000;
+  int want_block_size = 4096;
   bool opened = false;
   bool paused = false;
 };

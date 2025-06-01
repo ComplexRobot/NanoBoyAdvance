@@ -30,8 +30,8 @@ struct EmulatorThread {
   void SetFrameRateCallback(std::function<void(float)> callback);
   void SetPerFrameCallback(std::function<void()> callback);
 
-  void Start(std::unique_ptr<CoreBase> core);
-  std::unique_ptr<CoreBase> Stop();
+  void Start(CoreBase* core);
+  CoreBase* Stop();
 
   void Reset();
   void SetKeyStatus(Key key, bool pressed);
@@ -66,7 +66,7 @@ private:
   std::queue<Message> msg_queue;
   std::mutex msg_queue_mutex;
 
-  std::unique_ptr<CoreBase> core;
+  CoreBase* core;
   FrameLimiter frame_limiter;
   std::thread thread;
   std::atomic_bool running = false;

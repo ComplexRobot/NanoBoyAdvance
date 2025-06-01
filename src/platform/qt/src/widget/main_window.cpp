@@ -28,8 +28,9 @@
 
 MainWindow::MainWindow(
   QApplication* app,
+  std::shared_ptr<QtConfig> config,
   QWidget* parent
-)   : QMainWindow(parent) {
+)   : QMainWindow(parent), config(config), core(config) {
   #ifdef RELEASE_BUILD
     base_window_title = QStringLiteral("NanoBoyAdvance %1.%2.%3ex")
       .arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_PATCH);
@@ -40,8 +41,6 @@ MainWindow::MainWindow(
 
   setWindowTitle(base_window_title);
   setAcceptDrops(true);
-
-  config->Load();
 
   screen = std::make_shared<Screen>(this, config);
   setCentralWidget(screen.get());
@@ -56,8 +55,9 @@ MainWindow::MainWindow(
 
   config->video_dev = screen;
   config->audio_dev = std::make_shared<nba::SDL2_AudioDevice>();
-  core = nba::CreateCore(config);
-  core_not_thread_safe = core.get();
+  //core = nba::CreateCore(config);
+  //core_not_thread_safe = core.get();
+  core_not_thread_safe = &core;
   emu_thread = std::make_unique<nba::EmulatorThread>();
 
   app->installEventFilter(this);
@@ -70,7 +70,7 @@ MainWindow::MainWindow(
     emit UpdateFrameRate(fps);
   });
   connect(this, &MainWindow::UpdateFrameRate, this, [this](int fps) {
-    if(config->window.show_fps) {
+    if(this->config->window.show_fps) {
       const float percent = fps / 59.7275f * 100.0f;
       setWindowTitle(QStringLiteral("%1 (%2 fps | %3%)").arg(base_window_title).arg(fps).arg(percent));
     } else {
@@ -715,7 +715,7 @@ void MainWindow::ApplyPauseState() {
 
 void MainWindow::Stop() {
   if(emu_thread->IsRunning()) {
-    core = emu_thread->Stop();
+    /*core = */emu_thread->Stop();
     config->audio_dev->Close();
 
     // Clear the screen.
@@ -767,7 +767,7 @@ void MainWindow::LoadROM(fs::path const& path) {
   do {
     retry = false;
 
-    switch(nba::BIOSLoader::Load(core, config->bios_path)) {
+    switch(nba::BIOSLoader::Load(&core, config->bios_path)) {
       case nba::BIOSLoader::Result::CannotFindFile: {
         QMessageBox box {this};
         box.setText(tr("A Game Boy Advance BIOS file is required but cannot be located.\n\nWould you like to add one now?"));
@@ -809,7 +809,7 @@ void MainWindow::LoadROM(fs::path const& path) {
   auto save_path = GetSavePath(path, ".sav");
   auto save_type = config->cartridge.backup_type;
 
-  auto result = nba::ROMLoader::Load(core, path, save_path, save_type, force_gpio);
+  auto result = nba::ROMLoader::Load(&core, path, save_path, save_type, force_gpio);
 
   switch(result) {
     case nba::ROMLoader::Result::CannotFindFile: {
@@ -842,8 +842,8 @@ void MainWindow::LoadROM(fs::path const& path) {
 
   // Reset the core and start the emulation thread.
   // If the emulator is currently paused force-clear the screen.
-  core->Reset();
-  emu_thread->Start(std::move(core));
+  core.Reset();
+  emu_thread->Start(&core);
 
   UpdateSolarSensorLevel();
   UpdateMenuBarVisibility();
@@ -851,9 +851,9 @@ void MainWindow::LoadROM(fs::path const& path) {
 
 auto MainWindow::LoadState(std::u16string const& path) -> nba::SaveStateLoader::Result {
   bool was_running = emu_thread->IsRunning();
-  core = emu_thread->Stop();
+  /*core = */emu_thread->Stop();
 
-  auto result = nba::SaveStateLoader::Load(core, path);
+  auto result = nba::SaveStateLoader::Load(&core, path);
 
   QMessageBox box {this};
   box.setIcon(QMessageBox::Critical);
@@ -884,7 +884,7 @@ auto MainWindow::LoadState(std::u16string const& path) -> nba::SaveStateLoader::
   }
 
   if(was_running) {
-    emu_thread->Start(std::move(core));
+    emu_thread->Start(&core);
   }
 
   return result;
@@ -892,9 +892,9 @@ auto MainWindow::LoadState(std::u16string const& path) -> nba::SaveStateLoader::
 
 auto MainWindow::SaveState(std::u16string const& path) -> nba::SaveStateWriter::Result {
   bool was_running = emu_thread->IsRunning();
-  core = emu_thread->Stop();
+  /*core = */emu_thread->Stop();
 
-  auto result = nba::SaveStateWriter::Write(core, path);
+  auto result = nba::SaveStateWriter::Write(&core, path);
 
   if(result != nba::SaveStateWriter::Result::Success) {
     QMessageBox box {this};
@@ -905,7 +905,7 @@ auto MainWindow::SaveState(std::u16string const& path) -> nba::SaveStateWriter::
   }
 
   if(was_running) {
-    emu_thread->Start(std::move(core));
+    emu_thread->Start(&core);
   }
 
   return result;

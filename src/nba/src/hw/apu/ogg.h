@@ -5,6 +5,7 @@
 #include <vorbis/vorbisenc.h>
 
 #include "apu.hpp"
+#include "nba\rom\ROMMapping.h"
 
 namespace nba::core {
 
@@ -23,19 +24,29 @@ namespace nba::core {
     static bool stereo;
     static bool autoFlush;
     static size_t maxSamples;
-    static const size_t MAX_BUFFER_SIZE = 36864;
 
   public:
+    static constexpr size_t MAX_BUFFER_SIZE = 48000;
     static size_t sampleCount;
-    static const float SAMPLE_THRESHOLD;
+
+    struct CommandData {
+      u32 address;
+      u8 patternLevel;
+      u32 patternAddress;
+    };
+
+    static std::vector<CommandData> commandQueue;
     static void Start(const std::filesystem::path& path, bool stereo = true);
     static void AddSample(const StereoSample<float>& sample);
     static void Flush();
     static void End();
     static size_t GetSampleCount();
     static void SetAutoFlush(bool value);
+    static bool GetAutoFlush();
     static void SetMaxSamples(size_t value);
     static size_t GetMaxSamples();
+    static size_t GetBufferSize();
+    static void ProcessSample(StereoSample<float> sample, Scheduler& scheduler);
   private:
     static void WriteDataToFile();
     static void TrimBuffer();

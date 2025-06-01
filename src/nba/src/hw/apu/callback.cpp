@@ -20,38 +20,43 @@ void AudioCallback(APU* apu, s16* stream, int byte_len) {
     return;
   }
 
-  int samples = byte_len/sizeof(s16)/2;
-  int available = apu->buffer->Available();
+  StereoSample<s16>* sampleStream = (StereoSample<s16>*)stream;
+  const StereoSample<s16>* streamEnd = (StereoSample<s16>*)((u8*)stream + byte_len);
 
-  static constexpr float kMaxAmplitude = 0.999;
+  auto CopyIncompleteBlock = [&] () {
+    std::memcpy(sampleStream, apu->buffer->Data(), apu->buffer->Size() * sizeof(StereoSample<s16>));
+  };
 
-  const float volume = (float)std::clamp(apu->config->audio.volume, 0, 100) / 100.0f;
+  while (sampleStream < streamEnd) {
+    const size_t available = apu->buffer->Size();
+    const size_t sampleCount = streamEnd - sampleStream;
 
-  if(available >= samples) {
-    for(int x = 0; x < samples; x++) {
-      auto sample = apu->buffer->Read() * volume;
-      sample[0] = std::clamp(sample[0], -kMaxAmplitude, kMaxAmplitude);
-      sample[1] = std::clamp(sample[1], -kMaxAmplitude, kMaxAmplitude);
-      sample *= 32767.0;
+    if (available >= sampleCount) {
+      if (sampleCount >= apu->buffer->CountPerBlock()) {
+        std::memcpy(sampleStream, apu->buffer->PopBlock(), apu->buffer->BlockByteSize());
+        sampleStream += apu->buffer->CountPerBlock();
 
-      stream[x*2+0] = (s16)std::round(sample.left);
-      stream[x*2+1] = (s16)std::round(sample.right);
-    }
-  } else {
-    int y = 0;
+      // Potential error here if the requested byte length is consistently lower
+      } else {
+        CopyIncompleteBlock();
+        break;
+      }
 
-    for(int x = 0; x < samples; x++) {
-      auto sample = apu->buffer->Peek(y) * volume;
-      sample[0] = std::clamp(sample[0], -kMaxAmplitude, kMaxAmplitude);
-      sample[1] = std::clamp(sample[1], -kMaxAmplitude, kMaxAmplitude);
-      sample *= 32767.0;
+    } else {
+      CopyIncompleteBlock();
 
-      if(++y >= available) y = 0;
+      sampleStream += apu->buffer->Size();
 
-      stream[x*2+0] = (s16)std::round(sample.left);
-      stream[x*2+1] = (s16)std::round(sample.right);
+      // Fill the rest of the stream with the last element
+      // - Packing the data into 32-bit integers for single operation copy
+      const u32& backBytes = *(u32*)&apu->buffer->Back();
+      while (sampleStream < streamEnd) {
+        *(u32*)(sampleStream++) = backBytes;
+      }
+      break;
     }
   }
+ 
 }
 
 } // namespace nba::core

@@ -8,64 +8,108 @@
 #pragma once
 
 #include <memory>
+#include <atomic>
 #include <nba/common/dsp/stereo.hpp>
 #include <nba/common/dsp/stream.hpp>
 
 namespace nba {
 
-template<typename T>
+template<typename T, size_t LENGTH>
 struct RingBuffer : Stream<T> {
-  RingBuffer(int length, bool blocking = false)
-      : length(length)
-      , blocking(blocking) {
-    data = std::make_unique<T[]>(length);
+  RingBuffer() {
     Reset();
   }
 
-  auto Available() -> int { return count; }
+  size_t Available() {
+    return tail - head;
+  }
 
   void Reset() {
-    rd_ptr = 0;
-    wr_ptr = 0;
-    count  = 0;
-    for(int i = 0; i < length; i++) {
-      data[i] = {};
-    }
+    head = 0;
+    tail  = 0;
+    std::memset(data, 0, sizeof(data));
   }
 
-  auto Peek(int offset) -> T const {
-    return data[(rd_ptr + offset) % length];
+  const T& Peek(size_t offset = 0) {
+    return data[(head + offset) % LENGTH];
   }
 
-  auto Read() -> T {
-    T value = data[rd_ptr];
-    if(count > 0) {
-      rd_ptr = (rd_ptr + 1) % length;
-      count--;
-    }
-    return value;
+  void Push(T const& value) {
+    data[++tail % LENGTH] = value;
+  }
+
+  T Pop() {
+    return data[++head % LENGTH];
+  }
+
+  T Read() {
+    return Pop();
   }
 
   void Write(T const& value) {
-    if(blocking && count == length) {
-      return;
-    }
-    data[wr_ptr] = value;
-    wr_ptr = (wr_ptr + 1) % length;
-    count++;
+    Push(value);
   }
 
 private:
-  std::unique_ptr<T[]> data;
+  T data[LENGTH];
 
-  int rd_ptr;
-  int wr_ptr;
-  int length;
-  int count;
-  bool blocking;
+  size_t head;
+  size_t tail;
 };
 
-template <typename T>
-using StereoRingBuffer = RingBuffer<StereoSample<T>>;
+// Like a ring buffer, but pops values in a single contiguous block for a fast memcpy
+// Since the parameters are compile-time constants, it's relying upon dependent systems working predictably
+template<typename T, size_t LENGTH, size_t BLOCKS = 2>
+struct RingBlockBuffer {
+  RingBlockBuffer() {}
+
+  void Push(const T& value) {
+    blocks[(LENGTH * currentBlock + size++) % BUFFER_SIZE] = value;
+  }
+
+  T* PopBlock() {
+    T* result = &blocks[LENGTH * currentBlock];
+    currentBlock = (currentBlock + 1) % BLOCKS;
+    size -= LENGTH;
+    return result;
+  }
+
+  T* Data() {
+    return &blocks[LENGTH * currentBlock];
+  }
+
+  T& Back() {
+    if (size == 0) {
+      return blocks[LENGTH * currentBlock];
+    }
+    return blocks[(LENGTH * currentBlock + size - 1) % BUFFER_SIZE];
+  }
+
+  const size_t& Size() {
+    return size;
+  }
+
+  constexpr size_t BlockByteSize() {
+    return BLOCK_SIZE;
+  }
+
+  constexpr size_t CountPerBlock() {
+    return LENGTH;
+  }
+
+private:
+  static constexpr size_t BUFFER_SIZE = LENGTH * BLOCKS;
+  static constexpr size_t BLOCK_SIZE = LENGTH * sizeof(T);
+
+  T blocks[BUFFER_SIZE] = {};
+  size_t currentBlock = 0;
+  size_t size = 0;
+};
+
+template <typename T, size_t LENGTH>
+using StereoRingBuffer = RingBuffer<StereoSample<T>, LENGTH>;
+
+template <typename T, size_t LENGTH, size_t BLOCKS = 2>
+using StereoRingBlockBuffer = RingBlockBuffer<StereoSample<T>, LENGTH, BLOCKS>;
 
 } // namespace nba

@@ -87,7 +87,7 @@ private:
 
   double lut[points * s_lut_resolution];
   float resample_phase = 0;
-  RingBuffer<T> taps { points };
+  RingBuffer<T, points> taps;
 };
 
 template <typename T, int points>

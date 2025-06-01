@@ -11,7 +11,7 @@
 #include <cmath>
 #include <functional>
 #include <filesystem>
-#include <nba/core.hpp>
+#include <core.hpp>
 #include <platform/loader/save_state.hpp>
 #include <platform/writer/save_state.hpp>
 #include <platform/emulator_thread.hpp>
@@ -34,6 +34,7 @@
 struct MainWindow : QMainWindow {
   MainWindow(
     QApplication* app,
+    std::shared_ptr<QtConfig> config,
     QWidget* parent = 0
   );
 
@@ -134,8 +135,8 @@ private:
   auto GetSavePath(fs::path const& rom_path, fs::path const& extension) -> fs::path;
 
   std::shared_ptr<Screen> screen;
-  std::shared_ptr<QtConfig> config = std::make_shared<QtConfig>();
-  std::unique_ptr<nba::CoreBase> core;
+  std::shared_ptr<QtConfig> config;
+  nba::core::Core core;
   std::unique_ptr<nba::EmulatorThread> emu_thread;
   bool key_input[2][(int)nba::Key::Count] {false};
   bool fast_forward[2] {false};

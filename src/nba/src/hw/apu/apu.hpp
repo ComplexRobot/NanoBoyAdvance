@@ -13,6 +13,7 @@
 #include <nba/save_state.hpp>
 #include <nba/scheduler.hpp>
 #include <mutex>
+#include <deque>
 
 #include "hw/apu/channel/quad_channel.hpp"
 #include "hw/apu/channel/wave_channel.hpp"
@@ -69,8 +70,12 @@ struct APU {
   } fifo_pipe[2];
 
   std::mutex buffer_mutex;
-  std::shared_ptr<StereoRingBuffer<float>> buffer;
+  static constexpr size_t RING_BUFFER_SIZE = 4096;
+  std::shared_ptr<StereoRingBlockBuffer<s16, RING_BUFFER_SIZE>> buffer;
+  std::shared_ptr<StereoRingBuffer<float, 1>> resampleBuffer;
   std::unique_ptr<StereoResampler<float>> resampler;
+  size_t sampleCount;
+  std::chrono::steady_clock::time_point startTime;
 
 private:
   friend void AudioCallback(APU* apu, s16* stream, int byte_len);

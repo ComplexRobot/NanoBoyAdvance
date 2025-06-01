@@ -25,14 +25,14 @@ struct ROMLoader {
   };
 
   static auto Load(
-    std::unique_ptr<CoreBase>& core,
+    CoreBase* core,
     fs::path const& path,
     Config::BackupType backup_type = Config::BackupType::Detect,
     GPIODeviceType force_gpio = GPIODeviceType::None
   ) -> Result;
 
   static auto Load(
-    std::unique_ptr<CoreBase>& core,
+    CoreBase* core,
     fs::path const& rom_path,
     fs::path const& save_path,
     Config::BackupType backup_type = Config::BackupType::Detect,
@@ -52,7 +52,7 @@ private:
   ) -> Config::BackupType;
 
   static auto CreateBackup(
-    std::unique_ptr<CoreBase>& core,
+    CoreBase* core,
     fs::path const& save_path,
     Config::BackupType backup_type
   ) -> std::unique_ptr<Backup>;

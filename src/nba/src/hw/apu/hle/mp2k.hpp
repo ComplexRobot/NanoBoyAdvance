@@ -13,6 +13,9 @@ namespace nba::core {
 
 struct Bus;
 
+constexpr size_t SAMPLE_RATE = 48000;
+constexpr double ADJUSTED_SAMPLE_RATE = SAMPLE_RATE * 65536.0 / 65835;
+
 struct MP2K {
   static constexpr u8 kMaxSoundChannels = 12;
 
@@ -81,14 +84,14 @@ struct MP2K {
     return force_reverb;
   }
 
-  void Reset();  
+  void Reset(bool unengage = true);  
   void SoundMainRAM(SoundInfo const& sound_info);
   void RenderFrame();
   auto ReadSample() -> float*;
 
 private:
-  static constexpr int k_sample_rate = 65536;
-  static constexpr int k_samples_per_frame = k_sample_rate / 60 + 1;
+  static constexpr double k_sample_rate = ADJUSTED_SAMPLE_RATE;
+  static constexpr int k_samples_per_frame = ADJUSTED_SAMPLE_RATE / 60 + 1;
   static constexpr int k_total_frame_count = 7;
 
   static constexpr float S8ToFloat(s8 value) {
@@ -130,7 +133,7 @@ private:
   bool force_reverb = false;
   Bus& bus;
   SoundInfo sound_info;
-  std::unique_ptr<float[]> buffer;
+  float buffer[k_samples_per_frame * k_total_frame_count * 2];
   int current_frame;
   int buffer_read_index;
 };

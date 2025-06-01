@@ -22,10 +22,8 @@ namespace nba {
 
 using BackupType = Config::BackupType;
 
-static constexpr size_t kMaxROMSize = 32 * 1024 * 1024; // 32 MiB
-
 auto ROMLoader::Load(
-  std::unique_ptr<CoreBase>& core,
+  CoreBase* core,
   fs::path const& path,
   Config::BackupType backup_type,
   GPIODeviceType force_gpio
@@ -36,7 +34,7 @@ auto ROMLoader::Load(
 }
 
 auto ROMLoader::Load(
-  std::unique_ptr<CoreBase>& core,
+  CoreBase* core,
   fs::path const& rom_path,
   fs::path const& save_path,
   BackupType backup_type,
@@ -213,7 +211,7 @@ auto ROMLoader::GetBackupType(
 }
 
 auto ROMLoader::CreateBackup(
-  std::unique_ptr<CoreBase>& core,
+  CoreBase* core,
   fs::path const& save_path,
   BackupType backup_type
 ) -> std::unique_ptr<Backup> {

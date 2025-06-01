@@ -11,7 +11,7 @@
 namespace nba {
 
 auto SaveStateWriter::Write(
-  std::unique_ptr<CoreBase>& core,
+  CoreBase* core,
   fs::path const& path
 ) -> Result {
   std::ofstream file_stream{path.c_str(), std::ios::binary};

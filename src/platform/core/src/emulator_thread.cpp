@@ -46,7 +46,7 @@ void EmulatorThread::SetPerFrameCallback(std::function<void()> callback) {
   per_frame_cb = callback;
 }
 
-void EmulatorThread::Start(std::unique_ptr<CoreBase> core) {
+void EmulatorThread::Start(CoreBase* core) {
   Assert(!running, "Started an emulator thread which was already running");
 
   this->core = std::move(core);
@@ -78,7 +78,7 @@ void EmulatorThread::Start(std::unique_ptr<CoreBase> core) {
   }};
 }
 
-std::unique_ptr<CoreBase> EmulatorThread::Stop() {
+CoreBase* EmulatorThread::Stop() {
   if(IsRunning()) {
     running = false;
     thread.join();

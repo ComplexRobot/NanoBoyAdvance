@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad\src\gl.c" />
+    <ClCompile Include="src\nba\include\nba\rom\ROMMapping.cpp" />
     <ClCompile Include="src\nba\src\arm\serialization.cpp" />
     <ClCompile Include="src\nba\src\arm\tablegen\tablegen.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
@@ -264,6 +265,9 @@ cd "$(SolutionDir)"</Command>
     <ResourceCompile Include="src\platform\qt\app.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\nba\include\nba\rom\gba\m4a_internal.h" />
+    <ClInclude Include="src\nba\include\nba\rom\main.h" />
+    <ClInclude Include="src\nba\include\nba\rom\ROMMapping.h" />
     <ClInclude Include="src\nba\src\hw\apu\ogg.h" />
     <ClInclude Include="src\nba\src\hw\apu\SongData.h" />
   </ItemGroup>
@@ -350,6 +354,7 @@ cd "$(SolutionDir)"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;libogg.lib;libvorbis.lib;Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;Qt5ThemeSupportd.lib;Qt5WindowsUIAutomationSupportd.lib;Qt5FontDatabaseSupportd.lib;Qt5EventDispatcherSupportd.lib;qtpcre2d.lib;qtharfbuzzd.lib;qtlibpngd.lib;qtfreetyped.lib;qwindowsd.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4206 %(AdditionalOptions)</AdditionalOptions>
+      <StackReserveSize>0x8000000</StackReserveSize>
     </Link>
     <PreBuildEvent />
   </ItemDefinitionGroup>
@@ -379,6 +384,7 @@ cd "$(SolutionDir)"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;libogg.lib;libvorbis.lib;Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;Qt5ThemeSupport.lib;Qt5WindowsUIAutomationSupport.lib;Qt5FontDatabaseSupport.lib;Qt5EventDispatcherSupport.lib;qtpcre2.lib;qtharfbuzz.lib;qtlibpng.lib;qtfreetype.lib;qwindows.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4206 %(AdditionalOptions)</AdditionalOptions>
+      <StackReserveSize>0x8000000</StackReserveSize>
     </Link>
     <PreBuildEvent />
   </ItemDefinitionGroup>
@@ -408,6 +414,7 @@ cd "$(SolutionDir)"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>fmt.lib;unarr.lib;SDL2.lib;SDL2main.lib;libogg.lib;libvorbis.lib;Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;Qt5ThemeSupport.lib;Qt5WindowsUIAutomationSupport.lib;Qt5FontDatabaseSupport.lib;Qt5EventDispatcherSupport.lib;qtpcre2.lib;qtharfbuzz.lib;qtlibpng.lib;qtfreetype.lib;qwindows.lib;dwmapi.lib;wtsapi32.lib;ws2_32.lib;netapi32.lib;userenv.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4206 %(AdditionalOptions)</AdditionalOptions>
+      <StackReserveSize>0x8000000</StackReserveSize>
     </Link>
     <PreBuildEvent />
   </ItemDefinitionGroup>

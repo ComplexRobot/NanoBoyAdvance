@@ -15,6 +15,7 @@
 
 #include "widget/main_window.hpp"
 #include "hw\apu\SongData.h"
+#include "nba\rom\ROMMapping.h"
 
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 
@@ -38,30 +39,6 @@ struct MenuStyle : QProxyStyle {
     return QProxyStyle::styleHint(stylehint, opt, widget, returnData);
   }
 };
-
-auto create_window(QApplication& app, int argc, char** argv) -> std::unique_ptr<MainWindow> {
-  fs::path rom;
-
-  if(argc >= 2) {
-    rom = fs::path{(char8_t*)argv[1]};
-
-    if(rom.is_relative()) {
-      rom = fs::current_path() / rom;
-    }
-  }
-
-  auto window = std::make_unique<MainWindow>(&app);
-  if(!window->Initialize()) {
-    return nullptr;
-  }
-
-  if(!rom.empty()) {
-    window->LoadROM(rom);
-  }
-
-  window->show();
-  return window;
-}
 
 int main(int argc, char** argv) {
   // See: https://trac.wxwidgets.org/ticket/19023
@@ -108,11 +85,29 @@ int main(int argc, char** argv) {
   QCoreApplication::setOrganizationName("fleroviux");
   QCoreApplication::setApplicationName("NanoBoyAdvance");
   QGuiApplication::setDesktopFileName("io.nanoboyadvance.NanoBoyAdvance");
-
-  auto window = create_window(app, argc, argv);
-  if(!window) {
+  
+  std::shared_ptr<QtConfig> config = std::make_shared<QtConfig>();
+  config->Load();
+  MainWindow window{ &app, config };
+  if(!window.Initialize()) {
     return EXIT_FAILURE;
   }
+
+  fs::path rom;
+  if(argc >= 2) {
+    rom = fs::path{(char8_t*)argv[1]};
+
+    if(rom.is_relative()) {
+      rom = fs::current_path() / rom;
+    }
+  }
+
+  if(!rom.empty()) {
+    nba::LoadROMMappings(fs::path{ rom }.replace_extension("map"));
+    window.LoadROM(rom);
+  }
+
+  window.show();
 
   nba::LoadSongData();
 

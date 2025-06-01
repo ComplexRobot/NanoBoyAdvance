@@ -5,20 +5,13 @@
  * Refer to the included LICENSE file.
  */
 
-#include <algorithm>
-#include <cmath>
 #include <nba/common/dsp/resampler/cosine.hpp>
 #include <nba/common/dsp/resampler/cubic.hpp>
 #include <nba/common/dsp/resampler/nearest.hpp>
 #include <nba/common/dsp/resampler/sinc.hpp>
-#include <iostream>
-#include <windows.h>
-#include <iomanip>
-#include <limits>
 
 #include "apu.hpp"
 #include "ogg.h"
-#include "SongData.h"
 
 namespace nba::core {
 
@@ -53,7 +46,9 @@ void APU::Reset() {
   fifo_pipe[1] = {};
 
   resolution_old = 0;
-  scheduler.Add(mmio.bias.GetSampleInterval(), Scheduler::EventClass::APU_mixer);
+  sampleCount = 0;
+  startTime = std::chrono::steady_clock::now();
+  scheduler.Add(std::round(16777216.0 / ADJUSTED_SAMPLE_RATE), Scheduler::EventClass::APU_mixer);
   scheduler.Add(BaseChannel::s_cycles_per_step, Scheduler::EventClass::APU_sequencer);
 
   mp2k.Reset();
@@ -65,27 +60,28 @@ void APU::Reset() {
 
   using Interpolation = Config::Audio::Interpolation;
 
-  buffer = std::make_shared<StereoRingBuffer<float>>(audio_dev->GetBlockSize() * 4, true);
+  buffer = std::make_shared<StereoRingBlockBuffer<s16, RING_BUFFER_SIZE>>();
+  resampleBuffer = std::make_shared<StereoRingBuffer<float, 1>>();
 
   switch(config->audio.interpolation) {
-    case Interpolation::Cosine:
-      resampler = std::make_unique<CosineStereoResampler<float>>(buffer);
-      break;
-    case Interpolation::Cubic:
-      resampler = std::make_unique<CubicStereoResampler<float>>(buffer);
-      break;
-    case Interpolation::Sinc_32:
-      resampler = std::make_unique<SincStereoResampler<float, 32>>(buffer);
-      break;
-    case Interpolation::Sinc_64:
-      resampler = std::make_unique<SincStereoResampler<float, 64>>(buffer);
-      break;
-    case Interpolation::Sinc_128:
-      resampler = std::make_unique<SincStereoResampler<float, 128>>(buffer);
-      break;
-    case Interpolation::Sinc_256:
-      resampler = std::make_unique<SincStereoResampler<float, 256>>(buffer);
-      break;
+  case Interpolation::Cosine:
+    resampler = std::make_unique<CosineStereoResampler<float>>(resampleBuffer);
+    break;
+  case Interpolation::Cubic:
+    resampler = std::make_unique<CubicStereoResampler<float>>(resampleBuffer);
+    break;
+  case Interpolation::Sinc_32:
+    resampler = std::make_unique<SincStereoResampler<float, 32>>(resampleBuffer);
+    break;
+  case Interpolation::Sinc_64:
+    resampler = std::make_unique<SincStereoResampler<float, 64>>(resampleBuffer);
+    break;
+  case Interpolation::Sinc_128:
+    resampler = std::make_unique<SincStereoResampler<float, 128>>(resampleBuffer);
+    break;
+  case Interpolation::Sinc_256:
+    resampler = std::make_unique<SincStereoResampler<float, 256>>(resampleBuffer);
+    break;
   }
 
   resampler->SetSampleRates(mmio.bias.GetSampleRate(), audio_dev->GetSampleRate());
@@ -126,12 +122,6 @@ void APU::OnTimerOverflow(int timer_id, int times) {
   }
 }
 
-static bool writingOgg = false;
-static size_t songCount = 0;
-static size_t silentSamples = 0;
-static size_t loopPoint = 0;
-static std::vector<StereoSample<float>> crossFadeSamples;
-
 void APU::StepMixer() {
   constexpr int psg_volume_tab[4] = { 1, 2, 4, 0 };
   constexpr int dma_volume_tab[2] = { 2, 4 };
@@ -141,13 +131,10 @@ void APU::StepMixer() {
 
   auto psg_volume = psg_volume_tab[psg.volume];
 
+  StereoSample<float> sampleOut;
+
   if(mp2k.IsEngaged()) {
     StereoSample<float> sample { 0, 0 };
-
-    /*if(resolution_old != 1) {
-      resampler->SetSampleRates(65536, config->audio_dev->GetSampleRate());
-      resolution_old = 1;
-    }*/
 
     auto mp2k_sample = mp2k.ReadSample();
 
@@ -173,74 +160,14 @@ void APU::StepMixer() {
 
     if(!mmio.soundcnt.master_enable) sample = {};
 
-    constexpr size_t CROSS_FADE_LENGTH = 65835.0 / 60 + 0.5;
+    OGG::ProcessSample(sample, scheduler);
 
-    if (writingOgg) {
+    sampleOut = sample;
 
-      if (songData[songCount].looping) {
-        if (OGG::GetSampleCount() >= loopPoint - CROSS_FADE_LENGTH && OGG::GetSampleCount() < loopPoint) {
-          crossFadeSamples.push_back(sample);
-
-        } else if (OGG::GetSampleCount() >= OGG::GetMaxSamples() - CROSS_FADE_LENGTH && OGG::GetSampleCount() < OGG::GetMaxSamples()) {
-          size_t i = OGG::GetSampleCount() - (OGG::GetMaxSamples() - CROSS_FADE_LENGTH);
-          float weight = (float)(i + 1) / CROSS_FADE_LENGTH;
-          sample[0] = (1 - weight) * sample[0] + weight * crossFadeSamples[i][0];
-          sample[1] = (1 - weight) * sample[1] + weight * crossFadeSamples[i][1];
-        }
-      }
-
-      if (std::abs(sample[0]) < OGG::SAMPLE_THRESHOLD && std::abs(sample[1]) < OGG::SAMPLE_THRESHOLD) {
-        if (++silentSamples > 35000) {
-          OGG::End();
-          writingOgg = false;
-          if (songData[songCount].looping) {
-            std::ofstream loopPointFile("sounds\\loop-points.csv", std::ofstream::app | std::ofstream::ate);
-            loopPointFile << songData[songCount].name << ',' << std::setprecision(4) << (loopPoint / 65835.0) << std::endl;
-          }
-        } else {
-          if (silentSamples == 1) {
-            OGG::Flush();
-          }
-          OGG::AddSample(sample);
-        }
-      } else {
-        OGG::AddSample(sample);
-        silentSamples = 0;
-      }
-
-    } else if (std::abs(sample[0]) >= OGG::SAMPLE_THRESHOLD || std::abs(sample[1]) >= OGG::SAMPLE_THRESHOLD) {
-      std::filesystem::create_directory("sounds");
-      ++songCount;
-      std::string name = songData[songCount].name;
-      std::string numberString = std::string{} + (songCount < 100 ? "0" : "") + (songCount < 10 ? "0" : "") + std::to_string(songCount);
-      std::string outputString = numberString + " " + name + "\n";
-      OutputDebugStringA(outputString.c_str());
-      OGG::Start("sounds\\" + (name.empty() ? numberString : name) + ".ogg", songData[songCount].stereo);
-      if (songData[songCount].looping) {
-        loopPoint = std::round(std::ceil((songData[songCount].loopStartPoint + 0.5) * 10) * 6583.5);
-        size_t maxSamples = loopPoint + (size_t)std::round((songData[songCount].duration - songData[songCount].loopStartPoint) * 65835);
-        OGG::SetMaxSamples(maxSamples);
-      }
-      OGG::AddSample(sample);
-      writingOgg = true;
-      silentSamples = 0;
-      crossFadeSamples.clear();
-    }
-
-    buffer_mutex.lock();
-    resampler->Write(sample);
-    buffer_mutex.unlock();
-
-    scheduler.Add(256 - (scheduler.GetTimestampNow() & 255), Scheduler::EventClass::APU_mixer);
   } else {
     StereoSample<s16> sample { 0, 0 };
 
     auto& bias = mmio.bias;
-
-    if(bias.resolution != resolution_old) {
-      resampler->SetSampleRates(bias.GetSampleRate(), config->audio_dev->GetSampleRate());
-      resolution_old = mmio.bias.resolution;
-    }
 
     for(int channel = 0; channel < 2; channel++) {
       s16 psg_sample = 0;
@@ -265,15 +192,33 @@ void APU::StepMixer() {
 
     if(!mmio.soundcnt.master_enable) sample = {};
 
-    buffer_mutex.lock();
-    resampler->Write({ sample[0] / float(0x200), sample[1] / float(0x200) });
-    buffer_mutex.unlock();
+    sampleOut = {
+      sample[0] * (1.0f / 512),
+      sample[1] * (1.0f / 512)
+    };
 
-    const int sample_interval = mmio.bias.GetSampleInterval();
-    const int cycles = sample_interval - (scheduler.GetTimestampNow() & (sample_interval - 1));
+    OGG::ProcessSample(sampleOut, scheduler);
 
-    scheduler.Add(cycles, Scheduler::EventClass::APU_mixer);
   }
+
+  std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+  if ((sampleCount + 1) / std::chrono::duration<double>{ now - startTime }.count() <= config->audio_dev->GetSampleRate()) {
+    ++sampleCount;
+
+    const float volume = std::clamp(config->audio.volume, 0, 100) / 100.0f;
+
+    std::lock_guard guard{ buffer_mutex };
+    buffer->Push({
+      (s16)std::clamp<s32>(std::round(sampleOut[1] * volume * 32767.5f), -32768, 32767),
+      (s16)std::clamp<s32>(std::round(sampleOut[0] * volume * 32767.5f), -32768, 32767),
+    });
+  }
+    
+  constexpr double CYCLES_PER_SAMPLE = 16777216 / ADJUSTED_SAMPLE_RATE;
+  u64 nowTimeStamp = scheduler.GetTimestampNow();
+  u64 nextTimeStamp = std::round(std::round(nowTimeStamp / CYCLES_PER_SAMPLE + 1) * CYCLES_PER_SAMPLE);
+  scheduler.Add(nextTimeStamp - nowTimeStamp, Scheduler::EventClass::APU_mixer);
+  
 }
 
 void APU::StepSequencer() {

@@ -15,7 +15,7 @@ namespace nba {
 static constexpr size_t kBIOSSize = 0x4000;
 
 auto BIOSLoader::Load(
-  std::unique_ptr<CoreBase>& core,
+  CoreBase* core,
   fs::path const& path
 ) -> Result {
   if(!fs::exists(path)) {

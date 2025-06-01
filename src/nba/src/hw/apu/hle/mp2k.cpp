@@ -12,8 +12,10 @@
 
 namespace nba::core {
 
-void MP2K::Reset() {
-  engaged = false;
+void MP2K::Reset(bool unengage) {
+  if (unengage) {
+    engaged = false;
+  }
   current_frame = 0;
   buffer_read_index = 0;
 
@@ -32,7 +34,6 @@ void MP2K::SoundMainRAM(SoundInfo const& sound_info) {
       "MP2K: samples per V-blank must not be zero."
     );
 
-    buffer = std::make_unique<float[]>(k_samples_per_frame * k_total_frame_count * 2);
     engaged = true;
   }
 
@@ -224,7 +225,7 @@ void MP2K::RenderFrame() {
     auto wave_data = sampler.wave_data;
 
     for(int j = 0; j < k_samples_per_frame; j++) {
-      const float t = j / (float)k_samples_per_frame;
+      const float t = j / (float)(k_samples_per_frame - 1);
 
       const float volume_l = envelope.volume_l[0] * (1 - t) + envelope.volume_l[1] * t;
       const float volume_r = envelope.volume_r[0] * (1 - t) + envelope.volume_r[1] * t;

@@ -10,6 +10,8 @@
 #include <nba/rom/gpio/solar_sensor.hpp>
 
 #include "core.hpp"
+#include "hw\apu\ogg.h"
+#include <iostream>
 
 namespace nba {
 
@@ -26,6 +28,7 @@ Core::Core(std::shared_ptr<Config> config)
     , keypad(scheduler, irq)
     , bus(scheduler, {cpu, irq, dma, apu, ppu, timer, keypad}) {
   Reset();
+  nba::ROMMap::bus = &bus;
 }
 
 void Core::Reset() {
@@ -75,10 +78,26 @@ void Core::SetKeyStatus(Key key, bool pressed) {
   keypad.SetKeyStatus(key, pressed);
 }
 
+static u32 lastCommandPointer = 0;
+
 void Core::Run(int cycles) {
   using HaltControl = Bus::Hardware::HaltControl;
 
   const auto limit = scheduler.GetTimestampNow() + cycles;
+
+  auto CommandPointerCheck = [&] () {
+    Main& main = *ROMAddressToPointer<Main>(ROMAddresses["gMain"]);
+    if (main.state != 0) {
+      MusicPlayer* const mplayTable = ROMAddressToPointer<MusicPlayer>(ROMAddresses["gMPlayTable"]);
+      Song* const songTable = ROMAddressToPointer<Song>(ROMAddresses["gSongTable"]);
+      MusicPlayerInfo& mplayInfo = *ROMAddressToPointer<MusicPlayerInfo>(mplayTable[songTable[main.currentSong].ms].info);
+      MusicPlayerTrack& mplayTrack = ROMAddressToPointer<MusicPlayerTrack>(mplayInfo.tracks)[0];
+      if (!(mplayInfo.status & MUSICPLAYER_STATUS_PAUSE) && mplayTrack.cmdPtr != lastCommandPointer) {
+        lastCommandPointer = mplayTrack.cmdPtr;
+        OGG::commandQueue.push_back({ mplayTrack.cmdPtr, mplayTrack.patternLevel, mplayTrack.patternStack[0] });
+      }
+    }
+  };
 
   while(scheduler.GetTimestampNow() < limit) {
     if(bus.hw.haltcnt == HaltControl::Run) {
@@ -92,6 +111,8 @@ void Core::Run(int cycles) {
       }
 
       cpu.Run();
+
+      CommandPointerCheck();
     } else {
       while(scheduler.GetTimestampNow() < limit && !irq.ShouldUnhaltCPU()) {
         if(dma.IsRunning()) {

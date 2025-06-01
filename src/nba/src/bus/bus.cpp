@@ -199,7 +199,7 @@ void Bus::Write(u32 address, int access, T value) {
 
   parallel_internal_cpu_cycle_limit = 0;
 
-  switch(page) {
+  switch(page ) {
     // EWRAM (external work RAM)
     case 0x02: {
       Step(is_u32 ? 6 : 3);
