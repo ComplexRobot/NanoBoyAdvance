@@ -6,6 +6,7 @@
 #include "bus/bus.hpp"
 #include "gba\m4a_internal.h"
 #include "main.h"
+#include <nba/integer.hpp>
 
 namespace nba {
 
@@ -13,6 +14,9 @@ namespace nba {
 
   namespace ROMMap {
     extern core::Bus* bus;
+    Main& gMain();
+    MusicPlayer* const gMPlayTable();
+    Song* const gSongTable();
   }
 
   void LoadROMMappings(const std::filesystem::path& mappingFilePath);

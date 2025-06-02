@@ -199,7 +199,7 @@ namespace nba::core {
       SONG_STOP_COMPLETE = 5
     };
 
-    Main& main = *ROMAddressToPointer<Main>(ROMAddresses["gMain"]);
+    Main& main = ROMMap::gMain();
     if (main.state == INITIALIZING) {
       return;
     }
@@ -208,8 +208,8 @@ namespace nba::core {
       return;
     }
 
-    MusicPlayer* const mplayTable = ROMAddressToPointer<MusicPlayer>(ROMAddresses["gMPlayTable"]);
-    Song* const songTable = ROMAddressToPointer<Song>(ROMAddresses["gSongTable"]);
+    MusicPlayer* const mplayTable = ROMMap::gMPlayTable();
+    Song* const songTable = ROMMap::gSongTable();
     MusicPlayerInfo& mplayInfo = *ROMAddressToPointer<MusicPlayerInfo>(mplayTable[songTable[main.currentSong].ms].info);
 
     bool PLAYBACK_ACTIVE = !(mplayInfo.status & MUSICPLAYER_STATUS_PAUSE);

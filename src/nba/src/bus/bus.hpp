@@ -56,10 +56,10 @@ struct Bus {
     std::array<u8, 0x04000> bios;
     std::array<u8, 0x40000> wram;
     std::array<u8, 0x08000> iram;
+    ROM rom;
     struct Latch {
       u32 bios = 0;
     } latch;
-    ROM rom;
   } memory;
 
   struct Hardware {

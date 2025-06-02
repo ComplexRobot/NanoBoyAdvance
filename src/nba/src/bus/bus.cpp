@@ -374,55 +374,60 @@ auto Bus::ReadOpenBus(u32 address) -> u32 {
   return word >> shift;
 }
 
-auto Bus::GetHostAddress(u32 address, size_t size) -> u8* {
-  auto& bios = memory.bios;
-  auto& wram = memory.wram;
-  auto& iram = memory.iram;
-  auto& rom = memory.rom.GetRawROM();
+auto Bus::GetHostAddress(u32 address, size_t) -> u8* {
 
-  auto page = address >> 24;
+  // Hyper optimization - now inline + error checks removed
 
-  switch(page) {
-    // BIOS
-    case 0x00: {
-      auto offset = address & 0x00FF'FFFF;
-      if(offset + size <= bios.size()) {
-        return bios.data() + offset;
-      }
-      break;
-    }
-    // EWRAM (external work RAM)
-    case 0x02: {
-      auto offset = address & 0x00FF'FFFF;
-      if(offset + size <= wram.size()) {
-        return wram.data() + offset;
-      }
-      break;
-    }
-    // IWRAM (internal work RAM)
-    case 0x03: {
-      auto offset = address & 0x00FF'FFFF;
-      if(offset + size <= iram.size()) {
-        return iram.data() + offset;
-      }
-      break;
-    }
-    // ROM (WS0, WS1, WS2)
-    case 0x08:
-    case 0x09:
-    case 0x0A:
-    case 0x0B:
-    case 0x0C:
-    case 0x0D: {
-      auto offset = address & 0x01FF'FFFF;
-      if(offset + size <= rom.size()) {
-        return rom.data() + offset;
-      }
-      break;
-    }
-  }
+  typedef std::array<u8, 0x4000> ArrayType;
 
-  return nullptr;
+  // The compiler packs this into vectors (AVX2) in the compiled assembly
+  constexpr ArrayType Memory::* MEMBER_POINTERS[] = {
+    // 0x00 BIOS
+    (ArrayType Memory::*)&Memory::bios,
+    // 0x01
+    nullptr,
+    // 0x02 EWRAM
+    (ArrayType Memory::*)&Memory::wram,
+    // 0x03 IWRAM
+    (ArrayType Memory::*)&Memory::iram,
+    // 0x04
+    nullptr,
+    // 0x05
+    nullptr,
+    // 0x06
+    nullptr,
+    // 0x07
+    nullptr,
+    // 0x08 ROM (WS0, WS1, WS2)
+    (ArrayType Memory::*)&Memory::rom,
+    // 0x09 ROM (WS0, WS1, WS2)
+    (ArrayType Memory::*)&Memory::rom,
+    // 0x0A ROM (WS0, WS1, WS2)
+    (ArrayType Memory::*)&Memory::rom,
+    // 0x0B ROM (WS0, WS1, WS2)
+    (ArrayType Memory::*)&Memory::rom,
+    // 0x0C ROM (WS0, WS1, WS2)
+    (ArrayType Memory::*)&Memory::rom,
+    // 0x0D ROM (WS0, WS1, WS2)
+    (ArrayType Memory::*)&Memory::rom,
+    // 0x0E
+    nullptr,
+    // 0x0F
+    nullptr,
+  };
+
+  constexpr u16 MASK_BITS = 0b0011'1111'0000'0000;
+
+  const u32 page = address >> 24;
+  // 0x01FF'FFFF for pages 0x08-0x0D, otherwise 0x00FF'FFFF
+  const u32 mask = 0x00FF'FFFF | (u32)(MASK_BITS >> page & 1) << 24;
+
+  // Check for unknown page - removed for optimization (undefined behavior)
+  /*if (MEMBER_POINTERS[page] == nullptr) {
+    return nullptr;
+  }*/
+
+  return (memory.*MEMBER_POINTERS[page]).data() + (address & mask);
 }
 
 } // namespace nba::core

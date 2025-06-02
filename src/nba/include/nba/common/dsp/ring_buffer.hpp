@@ -8,7 +8,6 @@
 #pragma once
 
 #include <memory>
-#include <atomic>
 #include <nba/common/dsp/stereo.hpp>
 #include <nba/common/dsp/stream.hpp>
 

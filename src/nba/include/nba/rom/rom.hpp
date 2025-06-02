@@ -72,7 +72,7 @@ struct ROM {
     return *this;
   }
 
-  auto GetRawROM() -> std::array<u8, kMaxROMSize>& {
+  constexpr auto GetRawROM() -> std::array<u8, kMaxROMSize>& {
     return rom;
   }
 

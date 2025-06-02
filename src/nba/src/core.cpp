@@ -86,12 +86,15 @@ void Core::Run(int cycles) {
   const auto limit = scheduler.GetTimestampNow() + cycles;
 
   auto CommandPointerCheck = [&] () {
-    Main& main = *ROMAddressToPointer<Main>(ROMAddresses["gMain"]);
+    Main& main = ROMMap::gMain();
+
     if (main.state != 0) {
-      MusicPlayer* const mplayTable = ROMAddressToPointer<MusicPlayer>(ROMAddresses["gMPlayTable"]);
-      Song* const songTable = ROMAddressToPointer<Song>(ROMAddresses["gSongTable"]);
+      MusicPlayer* const mplayTable = ROMMap::gMPlayTable();
+      Song* const songTable = ROMMap::gSongTable();
+
       MusicPlayerInfo& mplayInfo = *ROMAddressToPointer<MusicPlayerInfo>(mplayTable[songTable[main.currentSong].ms].info);
       MusicPlayerTrack& mplayTrack = ROMAddressToPointer<MusicPlayerTrack>(mplayInfo.tracks)[0];
+
       if (!(mplayInfo.status & MUSICPLAYER_STATUS_PAUSE) && mplayTrack.cmdPtr != lastCommandPointer) {
         lastCommandPointer = mplayTrack.cmdPtr;
         OGG::commandQueue.push_back({ mplayTrack.cmdPtr, mplayTrack.patternLevel, mplayTrack.patternStack[0] });
