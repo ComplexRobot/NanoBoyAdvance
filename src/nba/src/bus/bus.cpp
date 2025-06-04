@@ -378,10 +378,11 @@ auto Bus::GetHostAddress(u32 address, size_t) -> u8* {
 
   // Hyper optimization - now inline + error checks removed
 
-  typedef std::array<u8, 0x4000> ArrayType;
+  // Reliance upon statically-allocated data members
+  typedef u8 ArrayType[];
 
-  // The compiler packs this into vectors (AVX2) in the compiled assembly
-  constexpr ArrayType Memory::* MEMBER_POINTERS[] = {
+  // Statically-allocated array greatly simplifies the assembly output
+  static constexpr ArrayType Memory::* MEMBERS[]{
     // 0x00 BIOS
     (ArrayType Memory::*)&Memory::bios,
     // 0x01
@@ -423,11 +424,11 @@ auto Bus::GetHostAddress(u32 address, size_t) -> u8* {
   const u32 mask = 0x00FF'FFFF | (u32)(MASK_BITS >> page & 1) << 24;
 
   // Check for unknown page - removed for optimization (undefined behavior)
-  /*if (MEMBER_POINTERS[page] == nullptr) {
+  /*if (MEMBERS[page] == nullptr) {
     return nullptr;
   }*/
 
-  return (memory.*MEMBER_POINTERS[page]).data() + (address & mask);
+  return memory.*MEMBERS[page] + (address & mask);
 }
 
 } // namespace nba::core

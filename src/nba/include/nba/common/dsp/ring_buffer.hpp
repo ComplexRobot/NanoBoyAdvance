@@ -68,7 +68,11 @@ struct RingBlockBuffer {
 
   T* PopBlock() {
     T* result = &blocks[LENGTH * currentBlock];
-    currentBlock = (currentBlock + 1) % BLOCKS;
+    if constexpr (BLOCKS == 2) {
+      currentBlock ^= 1;
+    } else {
+      currentBlock = (currentBlock + 1) % BLOCKS;
+    }
     size -= LENGTH;
     return result;
   }

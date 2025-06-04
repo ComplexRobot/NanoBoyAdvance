@@ -209,8 +209,8 @@ void APU::StepMixer() {
 
     std::lock_guard guard{ buffer_mutex };
     buffer->Push({
-      (s16)std::clamp<s32>(std::round(sampleOut[1] * volume * 32767.5f), -32768, 32767),
       (s16)std::clamp<s32>(std::round(sampleOut[0] * volume * 32767.5f), -32768, 32767),
+      (s16)std::clamp<s32>(std::round(sampleOut[1] * volume * 32767.5f), -32768, 32767),
     });
   }
     

@@ -51,17 +51,21 @@ void AudioCallback(APU* apu, s16* stream, int byte_len) {
       // Fill the rest of the stream with the last element
 
       // Experimental optimization - 32-bit memset using AVX
+      // TODO: Make this a function
+      // Alternative to AVX: use __stosd or __stosq
 
       // Last element packed as a 32-bit int
       const u32& backBytes = *(u32*)&apu->buffer->Back();
       // Store repeated 32-bit value in a 256-bit vector
       const __m256i back256 = _mm256_set1_epi32(backBytes);
+      constexpr size_t COUNT_ALIGN16 = 16 / sizeof(u32);
+      constexpr size_t COUNT_ALIGN32 = 32 / sizeof(u32);
 
       auto CheckAlign = [&] () -> bool {
-        // Check if aligned 128-bit copy is impossible
-        const size_t address = (size_t)sampleStream / 4;
+        // If aligned 128-bit copy is impossible - just do a simple loop
+        const size_t address = (size_t)sampleStream / COUNT_ALIGN16;
         const size_t count = streamEnd - sampleStream;
-        if (count < 4 || count - (0 - address & 3) < 4) {
+        if (count < COUNT_ALIGN16 || count - ((0 - address) % COUNT_ALIGN16) < COUNT_ALIGN16) {
           while (sampleStream < streamEnd) {
             *(u32*)sampleStream++ = backBytes;
           }
@@ -71,37 +75,50 @@ void AudioCallback(APU* apu, s16* stream, int byte_len) {
       };
 
       auto AlignAddress32 = [&] () -> bool {
-        // Align the address to 16 byte alignment (maximum of 3 iterations)
-        while ((size_t)sampleStream & 0xF) {
+        // Align the address to 16 byte alignment
+        while ((size_t)sampleStream % 16 != 0) {
           if (sampleStream >= streamEnd) {
             return true;
           }
           *(u32*)sampleStream++ = backBytes;
         }
 
-        const bool UNALIGNED = (((size_t)sampleStream >> 4) & 1);
+        // After aligning to 16, check for exact 32 byte alignment
+        const bool UNALIGNED = (size_t)sampleStream / 16 % 2 != 0;
 
         // Align the address to 32 byte alignment
         if (sampleStream < streamEnd && UNALIGNED) {
-          _mm_store_si128((__m128i*)sampleStream, *(__m128i*)&back256);
-          sampleStream += 4;
+          *(__m128i*)sampleStream = *(__m128i*)&back256;
+          sampleStream += COUNT_ALIGN16;
         }
 
         return sampleStream >= streamEnd;
       };
 
+      // Split into 2 functions to force inlining
       if (CheckAlign() || AlignAddress32()) {
         break;
       }
 
       // Copy 256 bits at a time
-      StereoSample<s16>* const end8 = sampleStream + ((streamEnd - sampleStream) & ~7);
-      while (sampleStream < end8) {
-        _mm256_store_si256((__m256i*)sampleStream, back256);
-        sampleStream += 8;
+      for (
+        // 32 byte aligned end pointer (rounded down)
+        StereoSample<s16>* const endAlign32 = sampleStream + (streamEnd - sampleStream & 0 - COUNT_ALIGN32);
+        sampleStream < endAlign32;
+        sampleStream += COUNT_ALIGN32
+        ) {
+        *(__m256i*)sampleStream = back256;
       }
 
-      CheckAlign() || AlignAddress32();
+      // Copy to any remaining elements
+
+      if (CheckAlign() || AlignAddress32()) {
+        break;
+      }
+
+      while (sampleStream < streamEnd) {
+        *(u32*)sampleStream++ = backBytes;
+      }
       
       break;
     }
